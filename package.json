@@ -1,0 +1,26 @@
+{
+  "name": "step-sequencer",
+  "version": "1.0.0",
+  "description": "A step sequencer for programming drum beat, written in Elm",
+  "main": "index.js",
+  "scripts": {
+    "css-build": "node_modules/.bin/postcss src/css/*.css -c postcss.config.js -d dist/css",
+    "css-watch": "node_modules/.bin/postcss src/css/*.css -c postcss.config.js -d dist/css -w",
+    "elm-build": "node_modules/.bin/elm-make src/Main.elm --output=dist/elm.js",
+    "elm-install": "node_modules/.bin/elm-package install -y",
+    "elm-reactor": "node_modules/.bin/elm-reactor -p 3000",
+    "start": "yarn elm-install && yarn elm-reactor & yarn css-watch",
+    "build": "yarn css-build && yarn elm-install && yarn elm-build"
+  },
+  "author": "bholtbholt",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^7.1.2",
+    "elm": "^0.18.0",
+    "elm-format": "^0.6.1-alpha",
+    "postcss-cli": "^4.1.0",
+    "postcss-nested": "^2.1.2",
+    "postcss-simple-vars": "^4.1.0",
+    "prettier": "^1.5.3"
+  }
+}

@@ -62,6 +62,8 @@ Kck | [x][ ][x][ ] | [x][ ][x][ ] | [x][ ][ ][ ] | [x][ ][ ][ ] |
 # CSS
 CSS is run through [PostCSS](http://postcss.org). Available CSS variables are in `./postcss.config.js`.
 
+When adding a new CSS file, you may need to restart the development server.
+
 
 # Useful Links
 - [Elm Guide](https://guide.elm-lang.org)

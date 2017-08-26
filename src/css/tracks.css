@@ -1,0 +1,40 @@
+.track {
+  background-color: $track;
+  display: flex;
+  align-items: center;
+  color: $white;
+}
+
+.track-sequence {
+  padding: 10px;
+}
+
+.step {
+  cursor: pointer;
+  padding: 20px;
+  margin: 2px;
+  background-color: $step;
+
+  border: 1px solid transparent;
+  border-bottom: 2px solid $stepShadow;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px $stepShadow;
+
+  &:hover {
+    transform: translateY(-1px) scaleY(1.025);
+  }
+
+  &:nth-of-type(8n),
+  &:nth-of-type(8n - 1),
+  &:nth-of-type(8n - 2),
+  &:nth-of-type(8n - 3) {
+    background-color: $stepAlt;
+  }
+}
+
+.step:active,
+.step._active {
+  background-color: $stepActive;
+  transform: translateY(2px);
+  border-bottom: 1px solid $stepShadow;
+}

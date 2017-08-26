@@ -4,7 +4,13 @@ module.exports = {
     require('postcss-nested')(),
     require('postcss-simple-vars')({
       variables: {
-        $blue: '#0098DB',
+        $white: '#fff',
+
+        $track: '#34495e',
+        $step: '#677c91',
+        $stepAlt: '#9aafc4',
+        $stepActive: '#1abc9c',
+        $stepShadow: 'rgba(0, 0, 0, .3)',
       },
     }),
   ],

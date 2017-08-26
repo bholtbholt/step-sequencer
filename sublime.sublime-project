@@ -1,0 +1,25 @@
+// To enable project settings Open the Project via
+// Project Menu > Open Project
+{
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "prettier_cli_path": "node_modules/.bin/prettier",
+        "js_prettier": {
+            "auto_format_on_save": true,
+            "prettier_options": {
+                "printWidth": 120,
+                "singleQuote": true,
+                "trailingComma": "all"
+            }
+        },
+        "elm_language_support": {
+            "elm_format_on_save": true,
+            "elm_paths": "/usr/local/bin/:/usr/local/bin/elm-oracle"
+        }
+    }
+}

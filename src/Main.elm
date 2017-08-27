@@ -7,9 +7,16 @@ import Update exposing (update)
 import View exposing (view)
 
 
-initTrack : Array Step
-initTrack =
+initSequence : Array Step
+initSequence =
     Array.initialize 16 (always Off)
+
+
+initTrack : Track
+initTrack =
+    { sequence = initSequence
+    , name = "Track"
+    }
 
 
 init : ( Model, Cmd.Cmd Msg )
@@ -17,10 +24,7 @@ init =
     ( { playback = Stopped
       , playbackPosition = 1
       , bpm = 120
-      , track =
-            { sequence = initTrack
-            , name = "Kick"
-            }
+      , tracks = Array.initialize 1 (always initTrack)
       }
     , Cmd.none
     )

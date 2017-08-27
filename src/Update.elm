@@ -4,10 +4,22 @@ import Types exposing (..)
 import Array exposing (..)
 
 
+initSequence : Array Step
+initSequence =
+    Array.initialize 16 (always Off)
+
+
+initTrack : Track
+initTrack =
+    { sequence = initSequence
+    , name = "Track"
+    }
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ToggleStep index step ->
+        ToggleStep trackIndex stepIndex step ->
             let
                 toggledStep =
                     if step == Off then
@@ -15,15 +27,16 @@ update msg model =
                     else
                         Off
 
-                selectedTrack =
-                    model.track
-
                 newSequence =
-                    Array.set index toggledStep selectedTrack.sequence
+                    Array.set stepIndex toggledStep selectedTrack.sequence
 
                 newTrack =
                     { selectedTrack | sequence = newSequence }
+
+                -- can I get this track without a maybe? Set a record within a set
+                selectedTrack =
+                    Maybe.withDefault initTrack (Array.get trackIndex model.tracks)
             in
-                ( { model | track = newTrack }
+                ( { model | tracks = Array.set trackIndex newTrack model.tracks }
                 , Cmd.none
                 )

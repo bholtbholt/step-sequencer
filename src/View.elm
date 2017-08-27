@@ -7,8 +7,11 @@ import Types exposing (..)
 import Array exposing (..)
 
 
+-- Can i curry trackIndex this function to apply it in ToggleStep?
+
+
 renderStep : Int -> Step -> Html Msg
-renderStep index step =
+renderStep stepIndex step =
     let
         classes =
             if step == Off then
@@ -17,28 +20,28 @@ renderStep index step =
                 "step _active"
     in
         button
-            [ onClick (ToggleStep index step)
+            [ onClick (ToggleStep 0 stepIndex step)
             , class classes
             ]
             []
 
 
-renderSequence : Array Step -> List (Html Msg)
-renderSequence sequence =
+renderSequence : Int -> Array Step -> List (Html Msg)
+renderSequence trackIndex sequence =
     Array.toList <| Array.indexedMap renderStep sequence
 
 
-renderTrack : Track -> Html Msg
-renderTrack track =
+renderTrack : Int -> Track -> Html Msg
+renderTrack trackIndex track =
     div [ class "track" ]
         [ p [] [ text track.name ]
-        , div [ class "track-sequence" ] (renderSequence track.sequence)
+        , div [ class "track-sequence" ] (renderSequence trackIndex track.sequence)
         ]
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ renderTrack model.track
+        [ div [] (Array.toList <| Array.indexedMap renderTrack model.tracks)
         , text (toString model)
         ]

@@ -7797,7 +7797,7 @@ var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
 var _bholtbholt$step_sequencer$Types$Model = F4(
 	function (a, b, c, d) {
-		return {track: a, playback: b, playbackPosition: c, bpm: d};
+		return {tracks: a, playback: b, playbackPosition: c, bpm: d};
 	});
 var _bholtbholt$step_sequencer$Types$Track = F2(
 	function (a, b) {
@@ -7807,17 +7807,26 @@ var _bholtbholt$step_sequencer$Types$Off = {ctor: 'Off'};
 var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
-var _bholtbholt$step_sequencer$Types$ToggleStep = F2(
-	function (a, b) {
-		return {ctor: 'ToggleStep', _0: a, _1: b};
+var _bholtbholt$step_sequencer$Types$ToggleStep = F3(
+	function (a, b, c) {
+		return {ctor: 'ToggleStep', _0: a, _1: b, _2: c};
 	});
 
+var _bholtbholt$step_sequencer$Update$initSequence = A2(
+	_elm_lang$core$Array$initialize,
+	16,
+	_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Off));
+var _bholtbholt$step_sequencer$Update$initTrack = {sequence: _bholtbholt$step_sequencer$Update$initSequence, name: 'Track'};
 var _bholtbholt$step_sequencer$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		var selectedTrack = model.track;
-		var toggledStep = _elm_lang$core$Native_Utils.eq(_p0._1, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
-		var newSequence = A3(_elm_lang$core$Array$set, _p0._0, toggledStep, selectedTrack.sequence);
+		var _p1 = _p0._0;
+		var selectedTrack = A2(
+			_elm_lang$core$Maybe$withDefault,
+			_bholtbholt$step_sequencer$Update$initTrack,
+			A2(_elm_lang$core$Array$get, _p1, model.tracks));
+		var toggledStep = _elm_lang$core$Native_Utils.eq(_p0._2, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
+		var newSequence = A3(_elm_lang$core$Array$set, _p0._1, toggledStep, selectedTrack.sequence);
 		var newTrack = _elm_lang$core$Native_Utils.update(
 			selectedTrack,
 			{sequence: newSequence});
@@ -7825,7 +7834,9 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
-				{track: newTrack}),
+				{
+					tracks: A3(_elm_lang$core$Array$set, _p1, newTrack, model.tracks)
+				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
@@ -8296,14 +8307,14 @@ var _elm_lang$html$Html_Events$Options = F2(
 	});
 
 var _bholtbholt$step_sequencer$View$renderStep = F2(
-	function (index, step) {
+	function (stepIndex, step) {
 		var classes = _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? 'step' : 'step _active';
 		return A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A2(_bholtbholt$step_sequencer$Types$ToggleStep, index, step)),
+					A3(_bholtbholt$step_sequencer$Types$ToggleStep, 0, stepIndex, step)),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(classes),
@@ -8312,49 +8323,55 @@ var _bholtbholt$step_sequencer$View$renderStep = F2(
 			},
 			{ctor: '[]'});
 	});
-var _bholtbholt$step_sequencer$View$renderSequence = function (sequence) {
-	return _elm_lang$core$Array$toList(
-		A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$View$renderStep, sequence));
-};
-var _bholtbholt$step_sequencer$View$renderTrack = function (track) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('track'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(track.name),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+var _bholtbholt$step_sequencer$View$renderSequence = F2(
+	function (trackIndex, sequence) {
+		return _elm_lang$core$Array$toList(
+			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$View$renderStep, sequence));
+	});
+var _bholtbholt$step_sequencer$View$renderTrack = F2(
+	function (trackIndex, track) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('track'),
+				_1: {ctor: '[]'}
+			},
+			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('track-sequence'),
+						_0: _elm_lang$html$Html$text(track.name),
 						_1: {ctor: '[]'}
-					},
-					_bholtbholt$step_sequencer$View$renderSequence(track.sequence)),
-				_1: {ctor: '[]'}
-			}
-		});
-};
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('track-sequence'),
+							_1: {ctor: '[]'}
+						},
+						A2(_bholtbholt$step_sequencer$View$renderSequence, trackIndex, track.sequence)),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _bholtbholt$step_sequencer$View$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _bholtbholt$step_sequencer$View$renderTrack(model.track),
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				_elm_lang$core$Array$toList(
+					A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$View$renderTrack, model.tracks))),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html$text(
@@ -8364,17 +8381,21 @@ var _bholtbholt$step_sequencer$View$view = function (model) {
 		});
 };
 
-var _bholtbholt$step_sequencer$Main$initTrack = A2(
+var _bholtbholt$step_sequencer$Main$initSequence = A2(
 	_elm_lang$core$Array$initialize,
 	16,
 	_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Off));
+var _bholtbholt$step_sequencer$Main$initTrack = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Track'};
 var _bholtbholt$step_sequencer$Main$init = {
 	ctor: '_Tuple2',
 	_0: {
 		playback: _bholtbholt$step_sequencer$Types$Stopped,
 		playbackPosition: 1,
 		bpm: 120,
-		track: {sequence: _bholtbholt$step_sequencer$Main$initTrack, name: 'Kick'}
+		tracks: A2(
+			_elm_lang$core$Array$initialize,
+			1,
+			_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Main$initTrack))
 	},
 	_1: _elm_lang$core$Platform_Cmd$none
 };

@@ -4,7 +4,7 @@ import Array exposing (..)
 
 
 type alias Model =
-    { track : Track
+    { tracks : Array Track
     , playback : Playback
     , playbackPosition : PlaybackPosition
     , bpm : Float
@@ -32,4 +32,4 @@ type alias Track =
 
 
 type Msg
-    = ToggleStep Int Step
+    = ToggleStep Int Int Step

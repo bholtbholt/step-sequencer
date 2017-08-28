@@ -7,11 +7,8 @@ import Types exposing (..)
 import Array exposing (..)
 
 
--- Can i curry trackIndex this function to apply it in ToggleStep?
-
-
-renderStep : Int -> Step -> Html Msg
-renderStep stepIndex step =
+renderStep : Int -> Int -> Step -> Html Msg
+renderStep trackIndex stepIndex step =
     let
         classes =
             if step == Off then
@@ -20,7 +17,7 @@ renderStep stepIndex step =
                 "step _active"
     in
         button
-            [ onClick (ToggleStep 0 stepIndex step)
+            [ onClick (ToggleStep trackIndex stepIndex step)
             , class classes
             ]
             []
@@ -28,7 +25,7 @@ renderStep stepIndex step =
 
 renderSequence : Int -> Array Step -> List (Html Msg)
 renderSequence trackIndex sequence =
-    Array.toList <| Array.indexedMap renderStep sequence
+    Array.toList <| Array.indexedMap (renderStep trackIndex) sequence
 
 
 renderTrack : Int -> Track -> Html Msg

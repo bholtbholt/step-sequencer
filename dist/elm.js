@@ -8306,15 +8306,15 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _bholtbholt$step_sequencer$View$renderStep = F2(
-	function (stepIndex, step) {
+var _bholtbholt$step_sequencer$View$renderStep = F3(
+	function (trackIndex, stepIndex, step) {
 		var classes = _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? 'step' : 'step _active';
 		return A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A3(_bholtbholt$step_sequencer$Types$ToggleStep, 0, stepIndex, step)),
+					A3(_bholtbholt$step_sequencer$Types$ToggleStep, trackIndex, stepIndex, step)),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(classes),
@@ -8326,7 +8326,10 @@ var _bholtbholt$step_sequencer$View$renderStep = F2(
 var _bholtbholt$step_sequencer$View$renderSequence = F2(
 	function (trackIndex, sequence) {
 		return _elm_lang$core$Array$toList(
-			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$View$renderStep, sequence));
+			A2(
+				_elm_lang$core$Array$indexedMap,
+				_bholtbholt$step_sequencer$View$renderStep(trackIndex),
+				sequence));
 	});
 var _bholtbholt$step_sequencer$View$renderTrack = F2(
 	function (trackIndex, track) {
@@ -8394,7 +8397,7 @@ var _bholtbholt$step_sequencer$Main$init = {
 		bpm: 120,
 		tracks: A2(
 			_elm_lang$core$Array$initialize,
-			1,
+			4,
 			_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Main$initTrack))
 	},
 	_1: _elm_lang$core$Platform_Cmd$none

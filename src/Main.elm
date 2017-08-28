@@ -24,7 +24,7 @@ init =
     ( { playback = Stopped
       , playbackPosition = 1
       , bpm = 120
-      , tracks = Array.initialize 1 (always initTrack)
+      , tracks = Array.initialize 4 (always initTrack)
       }
     , Cmd.none
     )

@@ -9,8 +9,12 @@
   color: #fff;
 }
 
+  .track:nth-of-type(even) {
+    background-color: #41566B;
+  }
+
 .track-sequence {
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 .step {

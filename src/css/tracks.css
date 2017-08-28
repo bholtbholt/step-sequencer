@@ -3,10 +3,14 @@
   display: flex;
   align-items: center;
   color: $white;
+
+  &:nth-of-type(even) {
+    background-color: $trackEven;
+  }
 }
 
 .track-sequence {
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 .step {

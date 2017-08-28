@@ -40,6 +40,10 @@
             transform: translateY(-1px) scaleY(1.025);
   }
 
+.step:nth-of-type(4n + 1) {
+    margin-left: 6px;
+  }
+
 .step:nth-of-type(8n),
   .step:nth-of-type(8n - 1),
   .step:nth-of-type(8n - 2),

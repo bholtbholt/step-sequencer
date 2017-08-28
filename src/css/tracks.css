@@ -33,6 +33,10 @@
     transform: translateY(-1px) scaleY(1.025);
   }
 
+  &:nth-of-type(4n + 1) {
+    margin-left: 6px;
+  }
+
   &:nth-of-type(8n),
   &:nth-of-type(8n - 1),
   &:nth-of-type(8n - 2),

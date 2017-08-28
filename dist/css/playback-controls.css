@@ -1,0 +1,22 @@
+.cursor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #34495e;
+  margin: 0;
+  padding: 5px 80px;
+}
+
+.cursor li {
+  background-color: #2980b9;
+  list-style: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 18px;
+  margin-left: 18px;
+}
+
+.cursor ._active {
+  background-color: #f1c40f;
+}

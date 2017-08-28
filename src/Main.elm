@@ -2,9 +2,11 @@ module Main exposing (main)
 
 import Html exposing (..)
 import Array exposing (..)
+import Set exposing (..)
 import Types exposing (..)
 import Update exposing (update)
-import View exposing (view)
+import Views.Tracks exposing (..)
+import Views.PlaybackControls exposing (..)
 
 
 initSequence : Array Step
@@ -12,19 +14,37 @@ initSequence =
     Array.initialize 16 (always Off)
 
 
-initTrack : Track
-initTrack =
+initHat : Track
+initHat =
     { sequence = initSequence
-    , name = "Track"
+    , name = "Hat"
+    , clip = "hat.wav"
+    }
+
+
+initSnare : Track
+initSnare =
+    { sequence = initSequence
+    , name = "Snare"
+    , clip = "snare.wav"
+    }
+
+
+initKick : Track
+initKick =
+    { sequence = initSequence
+    , name = "Kick"
+    , clip = "kick.wav"
     }
 
 
 init : ( Model, Cmd.Cmd Msg )
 init =
     ( { playback = Stopped
-      , playbackPosition = 1
+      , playbackPosition = 0
+      , playbackSequence = Array.initialize 16 (always Set.empty)
       , bpm = 120
-      , tracks = Array.initialize 4 (always initTrack)
+      , tracks = Array.fromList [ initHat, initSnare, initKick ]
       }
     , Cmd.none
     )
@@ -38,3 +58,13 @@ main =
         , init = init
         , subscriptions = always Sub.none
         }
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ renderCursor model
+        , renderTracks model
+        , renderControlPanel model
+        , p [] [ text (toString model) ]
+        ]

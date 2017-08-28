@@ -1,13 +1,22 @@
 module Types exposing (..)
 
 import Array exposing (..)
+import Set exposing (..)
 
 
 type alias Model =
     { tracks : Array Track
     , playback : Playback
     , playbackPosition : PlaybackPosition
+    , playbackSequence : Array (Set String)
     , bpm : Float
+    }
+
+
+type alias Track =
+    { sequence : Array Step
+    , name : String
+    , clip : String
     }
 
 
@@ -25,11 +34,6 @@ type alias PlaybackPosition =
     Int
 
 
-type alias Track =
-    { sequence : Array Step
-    , name : String
-    }
-
-
 type Msg
-    = ToggleStep Int Int Step
+    = ToggleStep Int String Int Step
+    | TogglePlayback

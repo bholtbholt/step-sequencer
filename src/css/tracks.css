@@ -9,6 +9,11 @@
   }
 }
 
+.track-title {
+  width: 70px;
+  text-align: right;
+}
+
 .track-sequence {
   padding: 5px 10px;
 }

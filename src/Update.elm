@@ -5,51 +5,56 @@ import Array exposing (..)
 import Set exposing (..)
 
 
-initTrack : Track
-initTrack =
-    { sequence = Array.initialize 16 (always Off)
-    , name = "update"
-    , clip = "update"
-    }
+setNestedArray : Int -> (a -> a) -> Array a -> Array a
+setNestedArray index setFn array =
+    case Array.get index array of
+        Nothing ->
+            array
+
+        Just a ->
+            Array.set index (setFn a) array
+
+
+updateTrackStep : Int -> Int -> Array Track -> Array Track
+updateTrackStep trackIndex stepIndex tracks =
+    let
+        toggleStep step =
+            if step == Off then
+                On
+            else
+                Off
+
+        newSequence track =
+            setNestedArray stepIndex toggleStep track.sequence
+
+        newTrack track =
+            { track | sequence = (newSequence track) }
+    in
+        setNestedArray trackIndex newTrack tracks
+
+
+updatePlaybackSequence : Int -> String -> Array (Set String) -> Array (Set String)
+updatePlaybackSequence stepIndex trackClip playbackSequence =
+    let
+        updateSequence trackClip sequence =
+            if Set.member trackClip sequence then
+                Set.remove trackClip sequence
+            else
+                Set.insert trackClip sequence
+    in
+        setNestedArray stepIndex (updateSequence trackClip) playbackSequence
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ToggleStep trackIndex trackClip stepIndex step ->
-            let
-                toggledStep =
-                    if step == Off then
-                        On
-                    else
-                        Off
-
-                newSequence =
-                    Array.set stepIndex toggledStep selectedTrack.sequence
-
-                newTrack =
-                    { selectedTrack | sequence = newSequence }
-
-                -- can I get this track without a maybe? Set a record within a set
-                selectedTrack =
-                    Maybe.withDefault initTrack (Array.get trackIndex model.tracks)
-
-                updateSequence trackClip =
-                    if Set.member trackClip selectedSequence then
-                        Set.remove trackClip selectedSequence
-                    else
-                        Set.insert trackClip selectedSequence
-
-                -- can I get this sequence without a maybe? Do nothing if it can't find it
-                selectedSequence =
-                    Maybe.withDefault Set.empty (Array.get stepIndex model.playbackSequence)
-            in
-                ( { model
-                    | tracks = Array.set trackIndex newTrack model.tracks
-                    , playbackSequence = Array.set stepIndex (updateSequence trackClip) model.playbackSequence
-                  }
-                , Cmd.none
-                )
+        ToggleStep trackIndex trackClip stepIndex ->
+            ( { model
+                | tracks = updateTrackStep trackIndex stepIndex model.tracks
+                , playbackSequence = updatePlaybackSequence stepIndex trackClip model.playbackSequence
+              }
+            , Cmd.none
+            )
 
         TogglePlayback ->
             let

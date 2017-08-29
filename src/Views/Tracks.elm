@@ -17,7 +17,7 @@ renderStep trackIndex trackClip stepIndex step =
                 "step _active"
     in
         button
-            [ onClick (ToggleStep trackIndex trackClip stepIndex step)
+            [ onClick (ToggleStep trackIndex trackClip stepIndex)
             , class classes
             ]
             []

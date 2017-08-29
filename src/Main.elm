@@ -60,11 +60,16 @@ main =
         }
 
 
+renderModel : Set String -> Html Msg
+renderModel sequence =
+    li [] [ text (toString sequence) ]
+
+
 view : Model -> Html Msg
 view model =
     div []
         [ renderCursor model
         , renderTracks model
         , renderControlPanel model
-        , p [] [ text (toString model) ]
+        , ul [] (Array.toList <| Array.map renderModel model.playbackSequence)
         ]

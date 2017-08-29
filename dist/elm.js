@@ -7939,52 +7939,65 @@ var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
 var _bholtbholt$step_sequencer$Types$TogglePlayback = {ctor: 'TogglePlayback'};
-var _bholtbholt$step_sequencer$Types$ToggleStep = F4(
-	function (a, b, c, d) {
-		return {ctor: 'ToggleStep', _0: a, _1: b, _2: c, _3: d};
+var _bholtbholt$step_sequencer$Types$ToggleStep = F3(
+	function (a, b, c) {
+		return {ctor: 'ToggleStep', _0: a, _1: b, _2: c};
 	});
 
-var _bholtbholt$step_sequencer$Update$initTrack = {
-	sequence: A2(
-		_elm_lang$core$Array$initialize,
-		16,
-		_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Off)),
-	name: 'update',
-	clip: 'update'
-};
+var _bholtbholt$step_sequencer$Update$setNestedArray = F3(
+	function (index, setFn, array) {
+		var _p0 = A2(_elm_lang$core$Array$get, index, array);
+		if (_p0.ctor === 'Nothing') {
+			return array;
+		} else {
+			return A3(
+				_elm_lang$core$Array$set,
+				index,
+				setFn(_p0._0),
+				array);
+		}
+	});
+var _bholtbholt$step_sequencer$Update$updateTrackStep = F3(
+	function (trackIndex, stepIndex, tracks) {
+		var toggleStep = function (step) {
+			return _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
+		};
+		var newSequence = function (track) {
+			return A3(_bholtbholt$step_sequencer$Update$setNestedArray, stepIndex, toggleStep, track.sequence);
+		};
+		var newTrack = function (track) {
+			return _elm_lang$core$Native_Utils.update(
+				track,
+				{
+					sequence: newSequence(track)
+				});
+		};
+		return A3(_bholtbholt$step_sequencer$Update$setNestedArray, trackIndex, newTrack, tracks);
+	});
+var _bholtbholt$step_sequencer$Update$updatePlaybackSequence = F3(
+	function (stepIndex, trackClip, playbackSequence) {
+		var updateSequence = F2(
+			function (trackClip, sequence) {
+				return A2(_elm_lang$core$Set$member, trackClip, sequence) ? A2(_elm_lang$core$Set$remove, trackClip, sequence) : A2(_elm_lang$core$Set$insert, trackClip, sequence);
+			});
+		return A3(
+			_bholtbholt$step_sequencer$Update$setNestedArray,
+			stepIndex,
+			updateSequence(trackClip),
+			playbackSequence);
+	});
 var _bholtbholt$step_sequencer$Update$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'ToggleStep') {
-			var _p2 = _p0._0;
-			var _p1 = _p0._2;
-			var selectedSequence = A2(
-				_elm_lang$core$Maybe$withDefault,
-				_elm_lang$core$Set$empty,
-				A2(_elm_lang$core$Array$get, _p1, model.playbackSequence));
-			var updateSequence = function (trackClip) {
-				return A2(_elm_lang$core$Set$member, trackClip, selectedSequence) ? A2(_elm_lang$core$Set$remove, trackClip, selectedSequence) : A2(_elm_lang$core$Set$insert, trackClip, selectedSequence);
-			};
-			var selectedTrack = A2(
-				_elm_lang$core$Maybe$withDefault,
-				_bholtbholt$step_sequencer$Update$initTrack,
-				A2(_elm_lang$core$Array$get, _p2, model.tracks));
-			var toggledStep = _elm_lang$core$Native_Utils.eq(_p0._3, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
-			var newSequence = A3(_elm_lang$core$Array$set, _p1, toggledStep, selectedTrack.sequence);
-			var newTrack = _elm_lang$core$Native_Utils.update(
-				selectedTrack,
-				{sequence: newSequence});
+		var _p1 = msg;
+		if (_p1.ctor === 'ToggleStep') {
+			var _p2 = _p1._2;
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						tracks: A3(_elm_lang$core$Array$set, _p2, newTrack, model.tracks),
-						playbackSequence: A3(
-							_elm_lang$core$Array$set,
-							_p1,
-							updateSequence(_p0._1),
-							model.playbackSequence)
+						tracks: A3(_bholtbholt$step_sequencer$Update$updateTrackStep, _p1._0, _p2, model.tracks),
+						playbackSequence: A3(_bholtbholt$step_sequencer$Update$updatePlaybackSequence, _p2, _p1._1, model.playbackSequence)
 					}),
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
@@ -8473,7 +8486,7 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderStep = F4(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A4(_bholtbholt$step_sequencer$Types$ToggleStep, trackIndex, trackClip, stepIndex, step)),
+					A3(_bholtbholt$step_sequencer$Types$ToggleStep, trackIndex, trackClip, stepIndex)),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(classes),
@@ -8577,6 +8590,17 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderCursor = function (m
 				model.playbackSequence)));
 };
 
+var _bholtbholt$step_sequencer$Main$renderModel = function (sequence) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_elm_lang$core$Basics$toString(sequence)),
+			_1: {ctor: '[]'}
+		});
+};
 var _bholtbholt$step_sequencer$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -8593,14 +8617,10 @@ var _bholtbholt$step_sequencer$Main$view = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$p,
+							_elm_lang$html$Html$ul,
 							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$Basics$toString(model)),
-								_1: {ctor: '[]'}
-							}),
+							_elm_lang$core$Array$toList(
+								A2(_elm_lang$core$Array$map, _bholtbholt$step_sequencer$Main$renderModel, model.playbackSequence))),
 						_1: {ctor: '[]'}
 					}
 				}

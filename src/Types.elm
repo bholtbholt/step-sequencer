@@ -36,4 +36,6 @@ type alias PlaybackPosition =
 
 type Msg
     = ToggleStep Int String Int
-    | TogglePlayback
+    | StartPlayback
+    | StopPlayback
+    | UpdatePlaybackPosition ()

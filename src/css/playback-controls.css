@@ -13,6 +13,10 @@
   border-radius: 50%;
   margin-right: 18px;
   margin-left: 18px;
+
+  &:nth-of-type(4n + 1) {
+    margin-left: 22px;
+  }
 }
 
 .cursor ._active {

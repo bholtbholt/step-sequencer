@@ -5,6 +5,7 @@ import Array exposing (..)
 import Set exposing (..)
 import Types exposing (..)
 import Update exposing (update)
+import Ports exposing (subscriptions)
 import Views.Tracks exposing (..)
 import Views.PlaybackControls exposing (..)
 
@@ -56,7 +57,7 @@ main =
         { view = view
         , update = update
         , init = init
-        , subscriptions = always Sub.none
+        , subscriptions = subscriptions
         }
 
 

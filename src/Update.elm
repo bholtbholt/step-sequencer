@@ -3,6 +3,7 @@ module Update exposing (update)
 import Types exposing (..)
 import Array exposing (..)
 import Set exposing (..)
+import Ports exposing (..)
 
 
 setNestedArray : Int -> (a -> a) -> Array a -> Array a
@@ -28,7 +29,7 @@ updateTrackStep trackIndex stepIndex tracks =
             setNestedArray stepIndex toggleStep track.sequence
 
         newTrack track =
-            { track | sequence = (newSequence track) }
+            { track | sequence = newSequence track }
     in
         setNestedArray trackIndex newTrack tracks
 
@@ -56,12 +57,36 @@ update msg model =
             , Cmd.none
             )
 
-        TogglePlayback ->
+        StartPlayback ->
             let
-                toggledPlayback =
-                    if model.playback == Stopped then
-                        Playing
-                    else
-                        Stopped
+                seconds =
+                    60
+
+                milliseconds =
+                    1000
+
+                beats =
+                    4
+
+                bpmToMilliseconds =
+                    ((seconds / model.bpm * milliseconds) / beats)
             in
-                ( { model | playback = toggledPlayback }, Cmd.none )
+                ( { model | playback = Playing }, startPlayback bpmToMilliseconds )
+
+        StopPlayback ->
+            ( { model
+                | playback = Stopped
+                , playbackPosition = 0
+              }
+            , stopPlayback ()
+            )
+
+        UpdatePlaybackPosition _ ->
+            let
+                newPosition =
+                    if model.playbackPosition == 15 then
+                        0
+                    else
+                        model.playbackPosition + 1
+            in
+                ( { model | playbackPosition = newPosition }, Cmd.none )

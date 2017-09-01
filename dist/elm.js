@@ -7938,11 +7938,33 @@ var _bholtbholt$step_sequencer$Types$Off = {ctor: 'Off'};
 var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
-var _bholtbholt$step_sequencer$Types$TogglePlayback = {ctor: 'TogglePlayback'};
+var _bholtbholt$step_sequencer$Types$UpdatePlaybackPosition = function (a) {
+	return {ctor: 'UpdatePlaybackPosition', _0: a};
+};
+var _bholtbholt$step_sequencer$Types$StopPlayback = {ctor: 'StopPlayback'};
+var _bholtbholt$step_sequencer$Types$StartPlayback = {ctor: 'StartPlayback'};
 var _bholtbholt$step_sequencer$Types$ToggleStep = F3(
 	function (a, b, c) {
 		return {ctor: 'ToggleStep', _0: a, _1: b, _2: c};
 	});
+
+var _bholtbholt$step_sequencer$Ports$startPlayback = _elm_lang$core$Native_Platform.outgoingPort(
+	'startPlayback',
+	function (v) {
+		return v;
+	});
+var _bholtbholt$step_sequencer$Ports$stopPlayback = _elm_lang$core$Native_Platform.outgoingPort(
+	'stopPlayback',
+	function (v) {
+		return null;
+	});
+var _bholtbholt$step_sequencer$Ports$updatePlaybackPosition = _elm_lang$core$Native_Platform.incomingPort(
+	'updatePlaybackPosition',
+	_elm_lang$core$Json_Decode$null(
+		{ctor: '_Tuple0'}));
+var _bholtbholt$step_sequencer$Ports$subscriptions = function (model) {
+	return _bholtbholt$step_sequencer$Ports$updatePlaybackPosition(_bholtbholt$step_sequencer$Types$UpdatePlaybackPosition);
+};
 
 var _bholtbholt$step_sequencer$Update$setNestedArray = F3(
 	function (index, setFn, array) {
@@ -7989,27 +8011,49 @@ var _bholtbholt$step_sequencer$Update$updatePlaybackSequence = F3(
 var _bholtbholt$step_sequencer$Update$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
-		if (_p1.ctor === 'ToggleStep') {
-			var _p2 = _p1._2;
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						tracks: A3(_bholtbholt$step_sequencer$Update$updateTrackStep, _p1._0, _p2, model.tracks),
-						playbackSequence: A3(_bholtbholt$step_sequencer$Update$updatePlaybackSequence, _p2, _p1._1, model.playbackSequence)
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			var toggledPlayback = _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Stopped) ? _bholtbholt$step_sequencer$Types$Playing : _bholtbholt$step_sequencer$Types$Stopped;
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{playback: toggledPlayback}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+		switch (_p1.ctor) {
+			case 'ToggleStep':
+				var _p2 = _p1._2;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							tracks: A3(_bholtbholt$step_sequencer$Update$updateTrackStep, _p1._0, _p2, model.tracks),
+							playbackSequence: A3(_bholtbholt$step_sequencer$Update$updatePlaybackSequence, _p2, _p1._1, model.playbackSequence)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'StartPlayback':
+				var beats = 4;
+				var milliseconds = 1000;
+				var seconds = 60;
+				var bpmToMilliseconds = ((seconds / model.bpm) * milliseconds) / beats;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{playback: _bholtbholt$step_sequencer$Types$Playing}),
+					_1: _bholtbholt$step_sequencer$Ports$startPlayback(bpmToMilliseconds)
+				};
+			case 'StopPlayback':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{playback: _bholtbholt$step_sequencer$Types$Stopped, playbackPosition: 0}),
+					_1: _bholtbholt$step_sequencer$Ports$stopPlayback(
+						{ctor: '_Tuple0'})
+				};
+			default:
+				var newPosition = _elm_lang$core$Native_Utils.eq(model.playbackPosition, 15) ? 0 : (model.playbackPosition + 1);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{playbackPosition: newPosition}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
@@ -8548,12 +8592,13 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTracks = function (model) {
 			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$Views_Tracks$renderTrack, model.tracks)));
 };
 
-var _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel = function (model) {
+var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton = function (model) {
+	var togglePlayback = _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Stopped) ? _bholtbholt$step_sequencer$Types$StartPlayback : _bholtbholt$step_sequencer$Types$StopPlayback;
 	return A2(
 		_elm_lang$html$Html$button,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Events$onClick(_bholtbholt$step_sequencer$Types$TogglePlayback),
+			_0: _elm_lang$html$Html_Events$onClick(togglePlayback),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -8562,6 +8607,9 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel = funct
 				_elm_lang$core$Basics$toString(model.playback)),
 			_1: {ctor: '[]'}
 		});
+};
+var _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel = function (model) {
+	return _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton(model);
 };
 var _bholtbholt$step_sequencer$Views_PlaybackControls$renderCursorPoint = F3(
 	function (model, index, _p0) {
@@ -8662,12 +8710,7 @@ var _bholtbholt$step_sequencer$Main$init = {
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _bholtbholt$step_sequencer$Main$main = _elm_lang$html$Html$program(
-	{
-		view: _bholtbholt$step_sequencer$Main$view,
-		update: _bholtbholt$step_sequencer$Update$update,
-		init: _bholtbholt$step_sequencer$Main$init,
-		subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
-	})();
+	{view: _bholtbholt$step_sequencer$Main$view, update: _bholtbholt$step_sequencer$Update$update, init: _bholtbholt$step_sequencer$Main$init, subscriptions: _bholtbholt$step_sequencer$Ports$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

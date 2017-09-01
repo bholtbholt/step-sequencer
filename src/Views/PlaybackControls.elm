@@ -27,6 +27,18 @@ renderCursor model =
         (Array.toList <| Array.indexedMap (renderCursorPoint model) model.playbackSequence)
 
 
+renderPlaybackButton : Model -> Html Msg
+renderPlaybackButton model =
+    let
+        togglePlayback =
+            if model.playback == Stopped then
+                StartPlayback
+            else
+                StopPlayback
+    in
+        button [ onClick togglePlayback ] [ text <| toString model.playback ]
+
+
 renderControlPanel : Model -> Html Msg
 renderControlPanel model =
-    button [ onClick TogglePlayback ] [ text <| toString model.playback ]
+    renderPlaybackButton model

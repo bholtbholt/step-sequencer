@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Array exposing (..)
 import Set exposing (..)
 import Types exposing (..)
@@ -63,7 +64,7 @@ main =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ class "step-sequencer" ]
         [ renderCursor model
         , renderTracks model
         , renderControlPanel model

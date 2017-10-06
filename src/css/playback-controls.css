@@ -2,7 +2,7 @@
   display: flex;
   background-color: $track;
   margin: 0;
-  padding: 5px 80px;
+  padding: 5px 0 5px 80px;
 }
 
 .cursor li {
@@ -10,6 +10,7 @@
   list-style: none;
   width: 10px;
   height: 10px;
+  flex: 0 0 10px;
   border-radius: 50%;
   margin-right: 18px;
   margin-left: 18px;
@@ -21,4 +22,45 @@
 
 .cursor ._active {
   background-color: $cursorActive;
+}
+
+.playback-controls {
+  background-color: $playbackControlsBackground;
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 86px;
+  width: 134px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.playback-button {
+  width: 18px;
+  height: 24px;
+  margin: 0 18px 0 2px;
+  padding: 0;
+
+  border-top: 12px solid transparent;
+  border-left: 18px solid $white;
+  border-bottom: 12px solid transparent;
+  border-right: 6px solid transparent;
+  background-color: transparent;
+}
+
+.playback-button._playing {
+  background-color: $white;
+}
+
+.bpm-display {
+  font-family: monospace;
+  font-size: 32px;
+  color: $white;
+
+  line-height: 1;
+  display: inline-block;
+  margin: initial;
+  letter-spacing: 3px;
 }

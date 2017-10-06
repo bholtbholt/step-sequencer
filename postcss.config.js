@@ -16,6 +16,8 @@ module.exports = {
 
         $cursor: '#2980b9',
         $cursorActive: '#f1c40f',
+
+        $playbackControlsBackground: '#000B1D',
       },
     }),
   ],

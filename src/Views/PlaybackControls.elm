@@ -35,10 +35,28 @@ renderPlaybackButton model =
                 StartPlayback
             else
                 StopPlayback
+
+        buttonClasses =
+            if model.playback == Playing then
+                "playback-button _playing"
+            else
+                "playback-button _stopped"
     in
-        button [ onClick togglePlayback ] [ text <| toString model.playback ]
+        button
+            [ onClick togglePlayback
+            , class buttonClasses
+            ]
+            []
+
+
+renderBPM : Model -> Html Msg
+renderBPM model =
+    p [ class "bpm-display" ] [ text <| toString model.bpm ]
 
 
 renderControlPanel : Model -> Html Msg
 renderControlPanel model =
-    renderPlaybackButton model
+    div [ class "playback-controls" ]
+        [ renderPlaybackButton model
+        , renderBPM model
+        ]

@@ -76,7 +76,6 @@ When adding a new CSS file, you may need to restart the development server.
 - [Howler.js - Audio API Library](https://github.com/goldfire/howler.js)
 
 # Next Steps
-- Style Playback controls
 - Change BPM
 - Clear tracks
 - Clear entire sequence

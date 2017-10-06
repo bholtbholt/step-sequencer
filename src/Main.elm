@@ -19,7 +19,7 @@ initHat : Track
 initHat =
     { sequence = initSequence
     , name = "Hat"
-    , clip = "hat.wav"
+    , clip = "hat"
     }
 
 
@@ -27,7 +27,7 @@ initSnare : Track
 initSnare =
     { sequence = initSequence
     , name = "Snare"
-    , clip = "snare.wav"
+    , clip = "snare"
     }
 
 
@@ -35,7 +35,7 @@ initKick : Track
 initKick =
     { sequence = initSequence
     , name = "Kick"
-    , clip = "kick.wav"
+    , clip = "kick"
     }
 
 
@@ -61,16 +61,10 @@ main =
         }
 
 
-renderModel : Set String -> Html Msg
-renderModel sequence =
-    li [] [ text (toString sequence) ]
-
-
 view : Model -> Html Msg
 view model =
     div []
         [ renderCursor model
         , renderTracks model
         , renderControlPanel model
-        , ul [] (Array.toList <| Array.map renderModel model.playbackSequence)
         ]

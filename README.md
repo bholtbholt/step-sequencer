@@ -73,3 +73,4 @@ When adding a new CSS file, you may need to restart the development server.
 - [Elm Packages](http://package.elm-lang.org)
 - [Hex Colour Tool - Brightens and Darkens Colours](http://www.cssfontstack.com/oldsites/hexcolortool/)
 - [Flat UI Colours](http://flatuicolors.com)
+- [Howler.js - Audio API Library](https://github.com/goldfire/howler.js)

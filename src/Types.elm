@@ -2,6 +2,7 @@ module Types exposing (..)
 
 import Array exposing (..)
 import Set exposing (..)
+import Time exposing (..)
 
 
 type alias Model =
@@ -38,4 +39,4 @@ type Msg
     = ToggleStep Int String Int
     | StartPlayback
     | StopPlayback
-    | UpdatePlaybackPosition ()
+    | UpdatePlaybackPosition Time

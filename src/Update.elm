@@ -58,27 +58,14 @@ update msg model =
             )
 
         StartPlayback ->
-            let
-                seconds =
-                    60
-
-                milliseconds =
-                    1000
-
-                beats =
-                    4
-
-                bpmToMilliseconds =
-                    ((seconds / model.bpm * milliseconds) / beats)
-            in
-                ( { model | playback = Playing }, startPlayback bpmToMilliseconds )
+            ( { model | playback = Playing }, Cmd.none )
 
         StopPlayback ->
             ( { model
                 | playback = Stopped
                 , playbackPosition = 0
               }
-            , stopPlayback ()
+            , Cmd.none
             )
 
         UpdatePlaybackPosition _ ->
@@ -88,5 +75,9 @@ update msg model =
                         0
                     else
                         model.playbackPosition + 1
+
+                stepClips =
+                    Array.get model.playbackPosition model.playbackSequence
+                        |> Maybe.withDefault Set.empty
             in
-                ( { model | playbackPosition = newPosition }, Cmd.none )
+                ( { model | playbackPosition = newPosition }, startPlayback (Set.toList stepClips) )

@@ -1,17 +1,30 @@
 port module Ports exposing (..)
 
 import Types exposing (..)
+import Time exposing (..)
 
 
-port startPlayback : Float -> Cmd msg
+port startPlayback : List String -> Cmd msg
 
 
-port stopPlayback : () -> Cmd msg
+bpmToMilliseconds : Float -> Float
+bpmToMilliseconds bpm =
+    let
+        secondsPerMinute =
+            Time.minute / Time.second
 
+        millisecondsPerSecond =
+            Time.second
 
-port updatePlaybackPosition : (() -> msg) -> Sub msg
+        beats =
+            4
+    in
+        ((secondsPerMinute / bpm * millisecondsPerSecond) / beats)
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    updatePlaybackPosition UpdatePlaybackPosition
+    if model.playback == Playing then
+        Time.every (bpmToMilliseconds model.bpm) UpdatePlaybackPosition
+    else
+        Sub.none

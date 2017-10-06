@@ -74,3 +74,17 @@ When adding a new CSS file, you may need to restart the development server.
 - [Hex Colour Tool - Brightens and Darkens Colours](http://www.cssfontstack.com/oldsites/hexcolortool/)
 - [Flat UI Colours](http://flatuicolors.com)
 - [Howler.js - Audio API Library](https://github.com/goldfire/howler.js)
+
+# Next Steps
+- Style Playback controls
+- Change BPM
+- Clear tracks
+- Clear entire sequence
+- Hash url sequences to share
+- Preview track?
+- Mute track?
+- Local storage sequences?
+
+# Bugs
+- After x time, the audio no longer triggers and a JS promise error is returned
+- The sequence position is fast, or the audio is slow. Step 1 plays audio while light is on step 2. Noticeable a slow speeds.

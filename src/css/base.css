@@ -1,16 +1,33 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: $body;
-  padding-top: 40px;
+
+  @media ($desktop) {
+    padding-top: 40px;
+  }
 }
 
 .step-sequencer {
-  display: inline-block;
-  padding-left: $trackTitleWidth;
+  @media ($mobile) {
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  @media ($desktop) {
+    display: inline-block;
+    padding-left: $trackTitleWidth;
+  }
 }
 
 .control-panel {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+
+  @media ($mobile) {
+    flex: 0 0 auto;
+  }
 }

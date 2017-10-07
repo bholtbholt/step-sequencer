@@ -1,7 +1,12 @@
 .cursor {
-  display: flex;
-  margin: initial;
-  padding: 5px 0;
+  @media ($mobile) {
+    display: none;
+  }
+  @media ($desktop) {
+    display: flex;
+    margin: initial;
+    padding: 5px 0;
+  }
 }
 
 .cursor li {

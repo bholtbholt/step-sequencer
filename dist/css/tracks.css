@@ -1,6 +1,16 @@
-.tracks {
-  margin-left: -70px;
+@media (max-width: 699px) {.tracks {
+    width: 100%;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1;
+            flex: 1 1;
+    overflow: auto;
+    min-height: 1px
 }
+  }
+  @media (min-width: 700px) {.tracks {
+    margin-left: -70px
+}
+  }
 
 .track {
   display: -webkit-box;
@@ -11,16 +21,47 @@
           align-items: center;
 }
 
+@media (max-width: 699px) {
+
+.track {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap
+}
+  }
+
 .track-title {
   color: #fff;
-  text-align: right;
   width: 70px;
   padding-right: 10px;
 }
 
-.track-sequence {
-  padding: 5px 0;
+@media (max-width: 699px) {
+
+.track-title {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+    width: 100%
 }
+  }
+
+@media (max-width: 699px) {
+
+.track-sequence {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap
+}
+  }
+
+@media (min-width: 700px) {
+
+.track-sequence {
+    padding: 5px 0
+}
+  }
 
 .step {
   cursor: pointer;
@@ -47,8 +88,20 @@
     background-color: #677c91;
   }
 
-.step:first-of-type {
-    margin-left: initial;
+@media (min-width: 700px) {
+    .step:first-of-type {
+      margin-left: initial;
+    }
+  }
+
+@media (max-width: 699px) {
+
+.step {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 calc(25% - 4px);
+            flex: 1 0 calc(25% - 4px);
+    min-height: 60px
+}
   }
 
 .step:active,

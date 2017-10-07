@@ -1,13 +1,38 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #34495e;
-  padding-top: 40px;
 }
 
-.step-sequencer {
-  display: inline-block;
-  padding-left: 70px;
+  @media (min-width: 700px) {body {
+    padding-top: 40px
 }
+  }
+
+@media (max-width: 699px) {
+
+.step-sequencer {
+    height: 100vh;
+    padding: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between
+}
+  }
+
+@media (min-width: 700px) {
+
+.step-sequencer {
+    display: inline-block;
+    padding-left: 70px
+}
+  }
 
 .control-panel {
   margin-top: 20px;
@@ -18,3 +43,12 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+
+@media (max-width: 699px) {
+
+.control-panel {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto
+}
+  }

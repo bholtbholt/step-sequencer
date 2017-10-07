@@ -1,21 +1,44 @@
 .tracks {
-  margin-left: -$trackTitleWidth;
+  @media ($mobile) {
+    width: 100%;
+    flex: 1 1;
+    overflow: auto;
+    min-height: 1px;
+  }
+  @media ($desktop) {
+    margin-left: -$trackTitleWidth;
+  }
 }
 
 .track {
   display: flex;
   align-items: center;
+
+  @media ($mobile) {
+    flex-wrap: wrap;
+  }
 }
 
 .track-title {
   color: $white;
-  text-align: right;
   width: $trackTitleWidth;
   padding-right: 10px;
+
+  @media ($mobile) {
+    flex: 1 0 100%;
+    width: 100%;
+  }
 }
 
 .track-sequence {
-  padding: 5px 0;
+  @media ($mobile) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  @media ($desktop) {
+    padding: 5px 0;
+  }
 }
 
 .step {
@@ -40,8 +63,15 @@
     background-color: $stepAlt;
   }
 
-  &:first-of-type {
-    margin-left: initial;
+  @media ($desktop) {
+    &:first-of-type {
+      margin-left: initial;
+    }
+  }
+
+  @media ($mobile) {
+    flex: 1 0 calc(25% - 4px);
+    min-height: 60px;
   }
 }
 

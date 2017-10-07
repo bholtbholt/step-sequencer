@@ -22,6 +22,9 @@ module.exports = {
         $cursor: '#2980b9',
 
         $playbackControlsBackground: '#000B1D',
+
+        $mobile: 'max-width: 699px',
+        $desktop: 'min-width: 700px',
       },
     }),
   ],

@@ -1,35 +1,7 @@
-.cursor {
-  display: flex;
-  background-color: $track;
-  margin: 0;
-  padding: 5px 0 5px 80px;
-}
-
-.cursor li {
-  background-color: $cursor;
-  list-style: none;
-  width: 10px;
-  height: 10px;
-  flex: 0 0 10px;
-  border-radius: 50%;
-  margin-right: 18px;
-  margin-left: 18px;
-
-  &:nth-of-type(4n + 1) {
-    margin-left: 22px;
-  }
-}
-
-.cursor ._active {
-  background-color: $cursorActive;
-}
-
 .playback-controls {
   background-color: $playbackControlsBackground;
-  border-radius: 6px;
+  border-radius: $radiusCurved;
   padding: 6px 10px;
-  margin-top: 20px;
-  margin-left: 86px;
   width: 180px;
   display: flex;
   align-content: center;
@@ -42,17 +14,17 @@
   width: 18px;
   height: 24px;
   margin: 0 18px 0 2px;
-  padding: 0;
+  padding: initial;
 
   border-top: 12px solid transparent;
-  border-left: 18px solid $white;
+  border-left: 18px solid $primaryActive;
   border-bottom: 12px solid transparent;
   border-right: 6px solid transparent;
   background-color: transparent;
 }
 
 .playback-button._playing {
-  background-color: $white;
+  background-color: $primaryActive;
 }
 
 .bpm-input {
@@ -61,15 +33,13 @@
   text-align: right;
   color: transparent;
   text-shadow: 0 0 0 $white;
-
-  line-height: 1;
-  display: inline-block;
   letter-spacing: 3px;
 
   background-color: transparent;
-  width: 86px;
-  padding: 0;
   margin: 0 -10px 0 0;
+
+  width: 86px;
+  padding: initial;
   border: none;
 
   &:focus {

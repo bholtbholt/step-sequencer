@@ -7,8 +7,10 @@ import Set exposing (..)
 import Types exposing (..)
 import Update exposing (update)
 import Ports exposing (subscriptions)
-import Views.Tracks exposing (..)
-import Views.PlaybackControls exposing (..)
+import Views.Cursor exposing (renderCursor)
+import Views.Tracks exposing (renderTracks)
+import Views.PlaybackControls exposing (renderPlaybackControls)
+import Views.Credits exposing (renderCredits)
 
 
 initSequence : Array Step
@@ -67,5 +69,9 @@ view model =
     div [ class "step-sequencer" ]
         [ renderCursor model
         , renderTracks model
-        , renderControlPanel model
+        , div
+            [ class "control-panel" ]
+            [ renderPlaybackControls model
+            , renderCredits
+            ]
         ]

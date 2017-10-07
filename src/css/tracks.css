@@ -1,21 +1,21 @@
+.tracks {
+  margin-left: -$trackTitleWidth;
+}
+
 .track {
-  background-color: $track;
   display: flex;
   align-items: center;
-  color: $white;
-
-  &:nth-of-type(even) {
-    background-color: $trackEven;
-  }
 }
 
 .track-title {
-  width: 70px;
+  color: $white;
   text-align: right;
+  width: $trackTitleWidth;
+  padding-right: 10px;
 }
 
 .track-sequence {
-  padding: 5px 10px;
+  padding: 5px 0;
 }
 
 .step {
@@ -26,15 +26,11 @@
 
   border: 1px solid transparent;
   border-bottom: 2px solid $stepShadow;
-  border-radius: 6px;
+  border-radius: $radiusCurved;
   box-shadow: 0 2px 3px $stepShadow;
 
   &:hover {
     transform: translateY(-1px) scaleY(1.025);
-  }
-
-  &:nth-of-type(4n + 1) {
-    margin-left: 6px;
   }
 
   &:nth-of-type(8n),
@@ -43,11 +39,15 @@
   &:nth-of-type(8n - 3) {
     background-color: $stepAlt;
   }
+
+  &:first-of-type {
+    margin-left: initial;
+  }
 }
 
 .step:active,
 .step._active {
-  background-color: $stepActive;
+  background-color: $primaryActive;
   transform: translateY(2px);
   border-bottom: 1px solid $stepShadow;
 }

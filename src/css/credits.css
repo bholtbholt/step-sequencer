@@ -1,0 +1,38 @@
+.credits {
+  text-align: right;
+}
+
+.credit-title {
+  margin: initial;
+  color: $white;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.credit-title strong {
+  color: $secondaryActive;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.credit-links {
+  margin: initial;
+  padding-left: initial;
+  list-style: none;
+}
+
+.credit-links li {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 14px;
+  color: $step;
+}
+
+.credit-link {
+  color: $step;
+
+  &:hover,
+  &:focus {
+    color: $primaryActive;
+  }
+}

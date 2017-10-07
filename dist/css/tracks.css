@@ -1,32 +1,32 @@
+.tracks {
+  margin-left: -70px;
+}
+
 .track {
-  background-color: #34495e;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #fff;
 }
 
-  .track:nth-of-type(even) {
-    background-color: #41566B;
-  }
-
 .track-title {
-  width: 70px;
+  color: #fff;
   text-align: right;
+  width: 70px;
+  padding-right: 10px;
 }
 
 .track-sequence {
-  padding: 5px 10px;
+  padding: 5px 0;
 }
 
 .step {
   cursor: pointer;
   padding: 20px;
   margin: 2px;
-  background-color: #677c91;
+  background-color: #9aafc4;
 
   border: 1px solid transparent;
   border-bottom: 2px solid rgba(0, 0, 0, .3);
@@ -40,15 +40,15 @@
             transform: translateY(-1px) scaleY(1.025);
   }
 
-.step:nth-of-type(4n + 1) {
-    margin-left: 6px;
-  }
-
 .step:nth-of-type(8n),
   .step:nth-of-type(8n - 1),
   .step:nth-of-type(8n - 2),
   .step:nth-of-type(8n - 3) {
-    background-color: #9aafc4;
+    background-color: #677c91;
+  }
+
+.step:first-of-type {
+    margin-left: initial;
   }
 
 .step:active,

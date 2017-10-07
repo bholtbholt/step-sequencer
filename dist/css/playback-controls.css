@@ -1,39 +1,7 @@
-.cursor {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #34495e;
-  margin: 0;
-  padding: 5px 0 5px 80px;
-}
-
-.cursor li {
-  background-color: #2980b9;
-  list-style: none;
-  width: 10px;
-  height: 10px;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 10px;
-          flex: 0 0 10px;
-  border-radius: 50%;
-  margin-right: 18px;
-  margin-left: 18px;
-}
-
-.cursor li:nth-of-type(4n + 1) {
-    margin-left: 22px;
-  }
-
-.cursor ._active {
-  background-color: #f1c40f;
-}
-
 .playback-controls {
   background-color: #000B1D;
   border-radius: 6px;
   padding: 6px 10px;
-  margin-top: 20px;
-  margin-left: 86px;
   width: 180px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -53,17 +21,17 @@
   width: 18px;
   height: 24px;
   margin: 0 18px 0 2px;
-  padding: 0;
+  padding: initial;
 
   border-top: 12px solid transparent;
-  border-left: 18px solid #fff;
+  border-left: 18px solid #1abc9c;
   border-bottom: 12px solid transparent;
   border-right: 6px solid transparent;
   background-color: transparent;
 }
 
 .playback-button._playing {
-  background-color: #fff;
+  background-color: #1abc9c;
 }
 
 .bpm-input {
@@ -72,15 +40,13 @@
   text-align: right;
   color: transparent;
   text-shadow: 0 0 0 #fff;
-
-  line-height: 1;
-  display: inline-block;
   letter-spacing: 3px;
 
   background-color: transparent;
-  width: 86px;
-  padding: 0;
   margin: 0 -10px 0 0;
+
+  width: 86px;
+  padding: initial;
   border: none;
 }
 

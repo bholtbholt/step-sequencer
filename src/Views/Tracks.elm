@@ -1,4 +1,4 @@
-module Views.Tracks exposing (..)
+module Views.Tracks exposing (renderTracks)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -38,4 +38,4 @@ renderTrack trackIndex track =
 
 renderTracks : Model -> Html Msg
 renderTracks model =
-    div [] (Array.toList <| Array.indexedMap renderTrack model.tracks)
+    div [ class "tracks" ] (Array.toList <| Array.indexedMap renderTrack model.tracks)

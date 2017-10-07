@@ -6,4 +6,15 @@ body {
 
 .step-sequencer {
   display: inline-block;
+  padding-left: 70px;
+}
+
+.control-panel {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }

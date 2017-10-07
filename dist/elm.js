@@ -8837,6 +8837,33 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 		}
 	});
 
+var _bholtbholt$step_sequencer$Views_Cursor$renderCursorPoint = F3(
+	function (model, index, _p0) {
+		var activeClass = (_elm_lang$core$Native_Utils.eq(model.playbackPosition, index) && _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing)) ? '_active' : '';
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(activeClass),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'});
+	});
+var _bholtbholt$step_sequencer$Views_Cursor$renderCursor = function (model) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('cursor'),
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Array$toList(
+			A2(
+				_elm_lang$core$Array$indexedMap,
+				_bholtbholt$step_sequencer$Views_Cursor$renderCursorPoint(model),
+				model.playbackSequence)));
+};
+
 var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
 var _elm_lang$html$Html_Events$targetChecked = A2(
 	_elm_lang$core$Json_Decode$at,
@@ -9017,7 +9044,11 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTrack = F2(
 var _bholtbholt$step_sequencer$Views_Tracks$renderTracks = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('tracks'),
+			_1: {ctor: '[]'}
+		},
 		_elm_lang$core$Array$toList(
 			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$Views_Tracks$renderTrack, model.tracks)));
 };
@@ -9073,7 +9104,7 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton = fun
 		},
 		{ctor: '[]'});
 };
-var _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel = function (model) {
+var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackControls = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -9091,32 +9122,101 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel = funct
 			}
 		});
 };
-var _bholtbholt$step_sequencer$Views_PlaybackControls$renderCursorPoint = F3(
-	function (model, index, _p0) {
-		var activeClass = _elm_lang$core$Native_Utils.eq(model.playbackPosition, index) ? '_active' : '';
+
+var _bholtbholt$step_sequencer$Views_Credits$creditLink = F2(
+	function (title, link) {
 		return A2(
 			_elm_lang$html$Html$li,
+			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class(activeClass),
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(link),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('credit-link'),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(title),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _bholtbholt$step_sequencer$Views_Credits$renderCredits = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('credits'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$h1,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('credit-title'),
 				_1: {ctor: '[]'}
 			},
-			{ctor: '[]'});
-	});
-var _bholtbholt$step_sequencer$Views_PlaybackControls$renderCursor = function (model) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		{
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Elm'),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$strong,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Drum'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}),
+		_1: {
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('cursor'),
+			_0: A2(
+				_elm_lang$html$Html$ul,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('credit-links'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$li,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Made in Elm by Brian Holt'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(_bholtbholt$step_sequencer$Views_Credits$creditLink, 'Github', 'https://github.com/bholtbholt/step-sequencer'),
+						_1: {
+							ctor: '::',
+							_0: A2(_bholtbholt$step_sequencer$Views_Credits$creditLink, 'Twitter', 'https://twitter.com/BHOLTBHOLT'),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
 			_1: {ctor: '[]'}
-		},
-		_elm_lang$core$Array$toList(
-			A2(
-				_elm_lang$core$Array$indexedMap,
-				_bholtbholt$step_sequencer$Views_PlaybackControls$renderCursorPoint(model),
-				model.playbackSequence)));
-};
+		}
+	});
 
 var _bholtbholt$step_sequencer$Main$view = function (model) {
 	return A2(
@@ -9128,13 +9228,28 @@ var _bholtbholt$step_sequencer$Main$view = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _bholtbholt$step_sequencer$Views_PlaybackControls$renderCursor(model),
+			_0: _bholtbholt$step_sequencer$Views_Cursor$renderCursor(model),
 			_1: {
 				ctor: '::',
 				_0: _bholtbholt$step_sequencer$Views_Tracks$renderTracks(model),
 				_1: {
 					ctor: '::',
-					_0: _bholtbholt$step_sequencer$Views_PlaybackControls$renderControlPanel(model),
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('control-panel'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackControls(model),
+							_1: {
+								ctor: '::',
+								_0: _bholtbholt$step_sequencer$Views_Credits$renderCredits,
+								_1: {ctor: '[]'}
+							}
+						}),
 					_1: {ctor: '[]'}
 				}
 			}

@@ -23,42 +23,6 @@ To build/update the dist folder (which will update the Github Page repo), run
 
 *The build process should be run prior to every commit.*
 
-# Data Design
-```
-steps
----
-step = on | off | accent
-step off = [ ]
-step on  = [x]
-
-tracks
----
-name = name of track
-clip = sound that triggers
-sequence = static array of step statuses [on, off, off, ...]
-
-playback controls
----
-PlaybackPosition = which step is active (increments while playback === playing, resets at 16)
-playback = playing | stopped
-BPM = second / BPM * milliseconds = 60 / 120 * 1000
-cursor = display position on the timeline
-
-compiledSequence = reduces all the tracks into any array of triggers, so playback _should_ be smoother and more performant - [kick][hat][snare, kick][hat]
-
-====
-
-             ^
-Hat | [ ][x][ ][x] | [ ][x][ ][x] | [ ][x][ ][x] | [ ][x][ ][x] |
-Snr | [ ][ ][x][ ] | [ ][ ][x][ ] | [ ][ ][x][ ] | [ ][ ][x][ ] |
-Kck | [x][ ][x][ ] | [x][ ][x][ ] | [x][ ][ ][ ] | [x][ ][ ][ ] |
-
-
-[play|stop] [BPM: 120]
-
-====
-```
-
 # CSS
 CSS is run through [PostCSS](http://postcss.org). Available CSS variables are in `./postcss.config.js`.
 
@@ -82,7 +46,8 @@ When adding a new CSS file, you may need to restart the development server.
 - Preview track?
 - Mute track?
 - Local storage sequences?
+- Keyboard control 1-8, q-i, a-k, z-, = 8 steps; - move down = move up; [ move left ] move right
 
 # Bugs
-- After x time, the audio no longer triggers and a JS promise error is returned
+- After x time, the audio no longer triggers and a JS promise error is returned. `const samples` is no longer in scope, is it due to GC on Safari?
 - The sequence position is fast, or the audio is slow. Step 1 plays audio while light is on step 2. Noticeable a slow speeds.

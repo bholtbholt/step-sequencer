@@ -51,7 +51,16 @@ renderPlaybackButton model =
 
 renderBPM : Model -> Html Msg
 renderBPM model =
-    p [ class "bpm-display" ] [ text <| toString model.bpm ]
+    input
+        [ class "bpm-input"
+        , value (toString model.bpm)
+        , maxlength 3
+        , type_ "number"
+        , Html.Attributes.min "60"
+        , Html.Attributes.max "300"
+        , onInput UpdateBPM
+        ]
+        []
 
 
 renderControlPanel : Model -> Html Msg

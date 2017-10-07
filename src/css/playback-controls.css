@@ -27,10 +27,10 @@
 .playback-controls {
   background-color: $playbackControlsBackground;
   border-radius: 6px;
-  padding: 10px;
+  padding: 6px 10px;
   margin-top: 20px;
   margin-left: 86px;
-  width: 134px;
+  width: 180px;
   display: flex;
   align-content: center;
   align-items: center;
@@ -38,6 +38,7 @@
 }
 
 .playback-button {
+  cursor: pointer;
   width: 18px;
   height: 24px;
   margin: 0 18px 0 2px;
@@ -54,13 +55,24 @@
   background-color: $white;
 }
 
-.bpm-display {
+.bpm-input {
   font-family: monospace;
   font-size: 32px;
-  color: $white;
+  text-align: right;
+  color: transparent;
+  text-shadow: 0 0 0 $white;
 
   line-height: 1;
   display: inline-block;
-  margin: initial;
   letter-spacing: 3px;
+
+  background-color: transparent;
+  width: 86px;
+  padding: 0;
+  margin: 0 -10px 0 0;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
 }

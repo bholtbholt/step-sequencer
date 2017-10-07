@@ -8700,6 +8700,9 @@ var _bholtbholt$step_sequencer$Types$Off = {ctor: 'Off'};
 var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
+var _bholtbholt$step_sequencer$Types$UpdateBPM = function (a) {
+	return {ctor: 'UpdateBPM', _0: a};
+};
 var _bholtbholt$step_sequencer$Types$UpdatePlaybackPosition = function (a) {
 	return {ctor: 'UpdatePlaybackPosition', _0: a};
 };
@@ -8714,7 +8717,7 @@ var _bholtbholt$step_sequencer$Ports$bpmToMilliseconds = function (bpm) {
 	var beats = 4;
 	var millisecondsPerSecond = _elm_lang$core$Time$second;
 	var secondsPerMinute = _elm_lang$core$Time$minute / _elm_lang$core$Time$second;
-	return ((secondsPerMinute / bpm) * millisecondsPerSecond) / beats;
+	return ((secondsPerMinute / _elm_lang$core$Basics$toFloat(bpm)) * millisecondsPerSecond) / beats;
 };
 var _bholtbholt$step_sequencer$Ports$subscriptions = function (model) {
 	return _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing) ? A2(
@@ -8805,7 +8808,7 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 						{playback: _bholtbholt$step_sequencer$Types$Stopped, playbackPosition: 0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'UpdatePlaybackPosition':
 				var stepClips = A2(
 					_elm_lang$core$Maybe$withDefault,
 					_elm_lang$core$Set$empty,
@@ -8818,6 +8821,18 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 						{playbackPosition: newPosition}),
 					_1: _bholtbholt$step_sequencer$Ports$startPlayback(
 						_elm_lang$core$Set$toList(stepClips))
+				};
+			default:
+				var newBPM = A2(
+					_elm_lang$core$Result$withDefault,
+					model.bpm,
+					_elm_lang$core$String$toInt(_p1._0));
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{bpm: newBPM}),
+					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
 	});
@@ -9009,18 +9024,38 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTracks = function (model) {
 
 var _bholtbholt$step_sequencer$Views_PlaybackControls$renderBPM = function (model) {
 	return A2(
-		_elm_lang$html$Html$p,
+		_elm_lang$html$Html$input,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('bpm-display'),
-			_1: {ctor: '[]'}
+			_0: _elm_lang$html$Html_Attributes$class('bpm-input'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value(
+					_elm_lang$core$Basics$toString(model.bpm)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$maxlength(3),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('number'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$min('60'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$max('300'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_bholtbholt$step_sequencer$Types$UpdateBPM),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
 		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_elm_lang$core$Basics$toString(model.bpm)),
-			_1: {ctor: '[]'}
-		});
+		{ctor: '[]'});
 };
 var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton = function (model) {
 	var buttonClasses = _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing) ? 'playback-button _playing' : 'playback-button _stopped';

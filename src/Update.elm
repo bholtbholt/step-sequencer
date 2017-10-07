@@ -81,3 +81,10 @@ update msg model =
                         |> Maybe.withDefault Set.empty
             in
                 ( { model | playbackPosition = newPosition }, startPlayback (Set.toList stepClips) )
+
+        UpdateBPM bpm ->
+            let
+                newBPM =
+                    Result.withDefault model.bpm (String.toInt bpm)
+            in
+                ( { model | bpm = newBPM }, Cmd.none )

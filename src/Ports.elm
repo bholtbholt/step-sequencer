@@ -7,7 +7,7 @@ import Time exposing (..)
 port startPlayback : List String -> Cmd msg
 
 
-bpmToMilliseconds : Float -> Float
+bpmToMilliseconds : Int -> Float
 bpmToMilliseconds bpm =
     let
         secondsPerMinute =
@@ -19,7 +19,7 @@ bpmToMilliseconds bpm =
         beats =
             4
     in
-        ((secondsPerMinute / bpm * millisecondsPerSecond) / beats)
+        ((secondsPerMinute / (toFloat bpm) * millisecondsPerSecond) / beats)
 
 
 subscriptions : Model -> Sub Msg

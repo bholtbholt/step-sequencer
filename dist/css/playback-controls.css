@@ -31,10 +31,10 @@
 .playback-controls {
   background-color: #000B1D;
   border-radius: 6px;
-  padding: 10px;
+  padding: 6px 10px;
   margin-top: 20px;
   margin-left: 86px;
-  width: 134px;
+  width: 180px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -49,6 +49,7 @@
 }
 
 .playback-button {
+  cursor: pointer;
   width: 18px;
   height: 24px;
   margin: 0 18px 0 2px;
@@ -65,13 +66,24 @@
   background-color: #fff;
 }
 
-.bpm-display {
+.bpm-input {
   font-family: monospace;
   font-size: 32px;
-  color: #fff;
+  text-align: right;
+  color: transparent;
+  text-shadow: 0 0 0 #fff;
 
   line-height: 1;
   display: inline-block;
-  margin: initial;
   letter-spacing: 3px;
+
+  background-color: transparent;
+  width: 86px;
+  padding: 0;
+  margin: 0 -10px 0 0;
+  border: none;
 }
+
+.bpm-input:focus {
+    outline: none;
+  }

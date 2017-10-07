@@ -10,7 +10,7 @@ type alias Model =
     , playback : Playback
     , playbackPosition : PlaybackPosition
     , playbackSequence : Array (Set String)
-    , bpm : Float
+    , bpm : Int
     }
 
 
@@ -40,3 +40,4 @@ type Msg
     | StartPlayback
     | StopPlayback
     | UpdatePlaybackPosition Time
+    | UpdateBPM String

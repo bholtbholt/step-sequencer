@@ -8713,27 +8713,6 @@ var _bholtbholt$step_sequencer$Types$ToggleStep = F3(
 		return {ctor: 'ToggleStep', _0: a, _1: b, _2: c};
 	});
 
-var _bholtbholt$step_sequencer$Ports$bpmToMilliseconds = function (bpm) {
-	var beats = 4;
-	var millisecondsPerSecond = _elm_lang$core$Time$second;
-	var secondsPerMinute = _elm_lang$core$Time$minute / _elm_lang$core$Time$second;
-	return ((secondsPerMinute / _elm_lang$core$Basics$toFloat(bpm)) * millisecondsPerSecond) / beats;
-};
-var _bholtbholt$step_sequencer$Ports$subscriptions = function (model) {
-	return _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing) ? A2(
-		_elm_lang$core$Time$every,
-		_bholtbholt$step_sequencer$Ports$bpmToMilliseconds(model.bpm),
-		_bholtbholt$step_sequencer$Types$UpdatePlaybackPosition) : _elm_lang$core$Platform_Sub$none;
-};
-var _bholtbholt$step_sequencer$Ports$startPlayback = _elm_lang$core$Native_Platform.outgoingPort(
-	'startPlayback',
-	function (v) {
-		return _elm_lang$core$Native_List.toArray(v).map(
-			function (v) {
-				return v;
-			});
-	});
-
 var _bholtbholt$step_sequencer$Update$setNestedArray = F3(
 	function (index, setFn, array) {
 		var _p0 = A2(_elm_lang$core$Array$get, index, array);
@@ -8775,6 +8754,14 @@ var _bholtbholt$step_sequencer$Update$updatePlaybackSequence = F3(
 			stepIndex,
 			updateSequence(trackClip),
 			playbackSequence);
+	});
+var _bholtbholt$step_sequencer$Update$startPlayback = _elm_lang$core$Native_Platform.outgoingPort(
+	'startPlayback',
+	function (v) {
+		return _elm_lang$core$Native_List.toArray(v).map(
+			function (v) {
+				return v;
+			});
 	});
 var _bholtbholt$step_sequencer$Update$update = F2(
 	function (msg, model) {
@@ -8819,7 +8806,7 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{playbackPosition: newPosition}),
-					_1: _bholtbholt$step_sequencer$Ports$startPlayback(
+					_1: _bholtbholt$step_sequencer$Update$startPlayback(
 						_elm_lang$core$Set$toList(stepClips))
 				};
 			default:
@@ -8836,6 +8823,19 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 				};
 		}
 	});
+
+var _bholtbholt$step_sequencer$Subscriptions$bpmToMilliseconds = function (bpm) {
+	var beats = 4;
+	var millisecondsPerSecond = _elm_lang$core$Time$second;
+	var secondsPerMinute = _elm_lang$core$Time$minute / _elm_lang$core$Time$second;
+	return ((secondsPerMinute / _elm_lang$core$Basics$toFloat(bpm)) * millisecondsPerSecond) / beats;
+};
+var _bholtbholt$step_sequencer$Subscriptions$subscriptions = function (model) {
+	return _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing) ? A2(
+		_elm_lang$core$Time$every,
+		_bholtbholt$step_sequencer$Subscriptions$bpmToMilliseconds(model.bpm),
+		_bholtbholt$step_sequencer$Types$UpdatePlaybackPosition) : _elm_lang$core$Platform_Sub$none;
+};
 
 var _bholtbholt$step_sequencer$Views_Cursor$renderCursorPoint = F3(
 	function (model, index, _p0) {
@@ -9271,7 +9271,7 @@ var _bholtbholt$step_sequencer$Main$init = {
 			_elm_lang$core$Array$initialize,
 			16,
 			_elm_lang$core$Basics$always(_elm_lang$core$Set$empty)),
-		bpm: 120,
+		bpm: 108,
 		tracks: _elm_lang$core$Array$fromList(
 			{
 				ctor: '::',
@@ -9290,7 +9290,7 @@ var _bholtbholt$step_sequencer$Main$init = {
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _bholtbholt$step_sequencer$Main$main = _elm_lang$html$Html$program(
-	{view: _bholtbholt$step_sequencer$Main$view, update: _bholtbholt$step_sequencer$Update$update, init: _bholtbholt$step_sequencer$Main$init, subscriptions: _bholtbholt$step_sequencer$Ports$subscriptions})();
+	{view: _bholtbholt$step_sequencer$Main$view, update: _bholtbholt$step_sequencer$Update$update, init: _bholtbholt$step_sequencer$Main$init, subscriptions: _bholtbholt$step_sequencer$Subscriptions$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

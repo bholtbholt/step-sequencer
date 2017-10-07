@@ -1,9 +1,11 @@
-module Update exposing (update)
+port module Update exposing (update)
 
 import Types exposing (..)
 import Array exposing (..)
 import Set exposing (..)
-import Ports exposing (..)
+
+
+port startPlayback : List String -> Cmd msg
 
 
 setNestedArray : Int -> (a -> a) -> Array a -> Array a

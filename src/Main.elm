@@ -6,7 +6,7 @@ import Array exposing (..)
 import Set exposing (..)
 import Types exposing (..)
 import Update exposing (update)
-import Ports exposing (subscriptions)
+import Subscriptions exposing (subscriptions)
 import Views.Cursor exposing (renderCursor)
 import Views.Tracks exposing (renderTracks)
 import Views.PlaybackControls exposing (renderPlaybackControls)
@@ -47,7 +47,7 @@ init =
     ( { playback = Stopped
       , playbackPosition = 0
       , playbackSequence = Array.initialize 16 (always Set.empty)
-      , bpm = 120
+      , bpm = 108
       , tracks = Array.fromList [ initHat, initSnare, initKick ]
       }
     , Cmd.none

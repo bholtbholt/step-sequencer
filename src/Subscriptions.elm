@@ -1,10 +1,7 @@
-port module Ports exposing (..)
+module Subscriptions exposing (subscriptions)
 
 import Types exposing (..)
 import Time exposing (..)
-
-
-port startPlayback : List String -> Cmd msg
 
 
 bpmToMilliseconds : Int -> Float

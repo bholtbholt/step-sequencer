@@ -19,14 +19,20 @@
   }
 }
 
+@media ($mobile) {
+  .track._hidden {
+    display: none;
+  }
+}
+
 .track-title {
   color: $white;
   width: $trackTitleWidth;
   padding-right: 10px;
+  text-align: right;
 
   @media ($mobile) {
-    flex: 1 0 100%;
-    width: 100%;
+    display: none;
   }
 }
 
@@ -78,6 +84,29 @@
 .step:active,
 .step._active {
   background-color: $primaryActive;
-  transform: translateY(2px);
   border-bottom: 1px solid $stepShadow;
+
+  @media ($desktop) {
+    transform: translateY(2px);
+  }
+}
+
+.track-selector {
+  margin-bottom: 20px;
+
+  @media ($desktop) {
+    display: none;
+  }
+}
+
+.selector-button {
+  cursor: pointer;
+  padding: 5px 15px;
+  border: none;
+  background-color: transparent;
+  color: $white;
+}
+
+.selector-button._active {
+  border-bottom: 3px solid $primaryActive;
 }

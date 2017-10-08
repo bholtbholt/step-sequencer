@@ -8,7 +8,7 @@ import Types exposing (..)
 import Update exposing (update)
 import Subscriptions exposing (subscriptions)
 import Views.Cursor exposing (renderCursor)
-import Views.Tracks exposing (renderTracks)
+import Views.Tracks exposing (renderTracks, renderTrackSelector)
 import Views.PlaybackControls exposing (renderPlaybackControls)
 import Views.Credits exposing (renderCredits)
 
@@ -23,6 +23,7 @@ initHat =
     { sequence = initSequence
     , name = "Hat"
     , clip = "hat"
+    , isActive = True
     }
 
 
@@ -31,6 +32,7 @@ initSnare =
     { sequence = initSequence
     , name = "Snare"
     , clip = "snare"
+    , isActive = False
     }
 
 
@@ -39,6 +41,7 @@ initKick =
     { sequence = initSequence
     , name = "Kick"
     , clip = "kick"
+    , isActive = False
     }
 
 
@@ -68,6 +71,7 @@ view : Model -> Html Msg
 view model =
     div [ class "step-sequencer" ]
         [ renderCursor model
+        , renderTrackSelector model
         , renderTracks model
         , div
             [ class "control-panel" ]

@@ -18,6 +18,7 @@ type alias Track =
     { sequence : Array Step
     , name : String
     , clip : String
+    , isActive : Bool
     }
 
 
@@ -41,3 +42,4 @@ type Msg
     | StopPlayback
     | UpdatePlaybackPosition Time
     | UpdateBPM String
+    | ActivateTrack Int

@@ -29,19 +29,23 @@
 }
   }
 
+@media (max-width: 699px) {
+  .track._hidden {
+    display: none;
+  }
+}
+
 .track-title {
   color: #fff;
   width: 70px;
   padding-right: 10px;
+  text-align: right;
 }
 
 @media (max-width: 699px) {
 
 .track-title {
-    -webkit-box-flex: 1;
-        -ms-flex: 1 0 100%;
-            flex: 1 0 100%;
-    width: 100%
+    display: none
 }
   }
 
@@ -107,7 +111,37 @@
 .step:active,
 .step._active {
   background-color: #1abc9c;
-  -webkit-transform: translateY(2px);
-          transform: translateY(2px);
   border-bottom: 1px solid rgba(0, 0, 0, .3);
+}
+
+@media (min-width: 700px) {
+
+.step:active,
+.step._active {
+    -webkit-transform: translateY(2px);
+            transform: translateY(2px)
+}
+  }
+
+.track-selector {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 700px) {
+
+.track-selector {
+    display: none
+}
+  }
+
+.selector-button {
+  cursor: pointer;
+  padding: 5px 15px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+.selector-button._active {
+  border-bottom: 3px solid #1abc9c;
 }

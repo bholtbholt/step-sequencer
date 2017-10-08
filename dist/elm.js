@@ -8692,14 +8692,17 @@ var _bholtbholt$step_sequencer$Types$Model = F5(
 	function (a, b, c, d, e) {
 		return {tracks: a, playback: b, playbackPosition: c, playbackSequence: d, bpm: e};
 	});
-var _bholtbholt$step_sequencer$Types$Track = F3(
-	function (a, b, c) {
-		return {sequence: a, name: b, clip: c};
+var _bholtbholt$step_sequencer$Types$Track = F4(
+	function (a, b, c, d) {
+		return {sequence: a, name: b, clip: c, isActive: d};
 	});
 var _bholtbholt$step_sequencer$Types$Off = {ctor: 'Off'};
 var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
+var _bholtbholt$step_sequencer$Types$ActivateTrack = function (a) {
+	return {ctor: 'ActivateTrack', _0: a};
+};
 var _bholtbholt$step_sequencer$Types$UpdateBPM = function (a) {
 	return {ctor: 'UpdateBPM', _0: a};
 };
@@ -8809,7 +8812,7 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_1: _bholtbholt$step_sequencer$Update$startPlayback(
 						_elm_lang$core$Set$toList(stepClips))
 				};
-			default:
+			case 'UpdateBPM':
 				var newBPM = A2(
 					_elm_lang$core$Result$withDefault,
 					model.bpm,
@@ -8819,6 +8822,29 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{bpm: newBPM}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var deactivateTrack = function (track) {
+					return _elm_lang$core$Native_Utils.update(
+						track,
+						{isActive: false});
+				};
+				var activateTrack = function (track) {
+					return _elm_lang$core$Native_Utils.update(
+						track,
+						{isActive: true});
+				};
+				var newTracks = A3(
+					_bholtbholt$step_sequencer$Update$setNestedArray,
+					_p1._0,
+					activateTrack,
+					A2(_elm_lang$core$Array$map, deactivateTrack, model.tracks));
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{tracks: newTracks}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -8979,6 +9005,38 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _bholtbholt$step_sequencer$Views_Tracks$renderTrackButton = F2(
+	function (trackIndex, track) {
+		var classes = track.isActive ? 'selector-button _active' : 'selector-button';
+		return A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_bholtbholt$step_sequencer$Types$ActivateTrack(trackIndex)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(classes),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(track.name),
+				_1: {ctor: '[]'}
+			});
+	});
+var _bholtbholt$step_sequencer$Views_Tracks$renderTrackSelector = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('track-selector'),
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Array$toList(
+			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$Views_Tracks$renderTrackButton, model.tracks)));
+};
 var _bholtbholt$step_sequencer$Views_Tracks$renderStep = F4(
 	function (trackIndex, trackClip, stepIndex, step) {
 		var classes = _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? 'step' : 'step _active';
@@ -9006,11 +9064,12 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderSequence = F2(
 	});
 var _bholtbholt$step_sequencer$Views_Tracks$renderTrack = F2(
 	function (trackIndex, track) {
+		var classes = track.isActive ? 'track _active' : 'track _hidden';
 		return A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('track'),
+				_0: _elm_lang$html$Html_Attributes$class(classes),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -9231,26 +9290,30 @@ var _bholtbholt$step_sequencer$Main$view = function (model) {
 			_0: _bholtbholt$step_sequencer$Views_Cursor$renderCursor(model),
 			_1: {
 				ctor: '::',
-				_0: _bholtbholt$step_sequencer$Views_Tracks$renderTracks(model),
+				_0: _bholtbholt$step_sequencer$Views_Tracks$renderTrackSelector(model),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('control-panel'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackControls(model),
-							_1: {
+					_0: _bholtbholt$step_sequencer$Views_Tracks$renderTracks(model),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
 								ctor: '::',
-								_0: _bholtbholt$step_sequencer$Views_Credits$renderCredits,
+								_0: _elm_lang$html$Html_Attributes$class('control-panel'),
 								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackControls(model),
+								_1: {
+									ctor: '::',
+									_0: _bholtbholt$step_sequencer$Views_Credits$renderCredits,
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
@@ -9259,9 +9322,9 @@ var _bholtbholt$step_sequencer$Main$initSequence = A2(
 	_elm_lang$core$Array$initialize,
 	16,
 	_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Off));
-var _bholtbholt$step_sequencer$Main$initHat = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Hat', clip: 'hat'};
-var _bholtbholt$step_sequencer$Main$initSnare = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Snare', clip: 'snare'};
-var _bholtbholt$step_sequencer$Main$initKick = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Kick', clip: 'kick'};
+var _bholtbholt$step_sequencer$Main$initHat = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Hat', clip: 'hat', isActive: true};
+var _bholtbholt$step_sequencer$Main$initSnare = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Snare', clip: 'snare', isActive: false};
+var _bholtbholt$step_sequencer$Main$initKick = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Kick', clip: 'kick', isActive: false};
 var _bholtbholt$step_sequencer$Main$init = {
 	ctor: '_Tuple2',
 	_0: {

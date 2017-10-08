@@ -90,3 +90,18 @@ update msg model =
                     Result.withDefault model.bpm (String.toInt bpm)
             in
                 ( { model | bpm = newBPM }, Cmd.none )
+
+        ActivateTrack trackIndex ->
+            let
+                activateTrack track =
+                    { track | isActive = True }
+
+                deactivateTrack track =
+                    { track | isActive = False }
+
+                newTracks =
+                    model.tracks
+                        |> Array.map deactivateTrack
+                        |> setNestedArray trackIndex activateTrack
+            in
+                ( { model | tracks = newTracks }, Cmd.none )

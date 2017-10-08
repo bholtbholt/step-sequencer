@@ -1,23 +1,35 @@
 .cursor {
+  display: flex;
+  margin: initial;
+  padding: 5px 0;
+
   @media ($mobile) {
-    display: none;
-  }
-  @media ($desktop) {
-    display: flex;
-    margin: initial;
-    padding: 5px 0;
+    flex-wrap: wrap;
+    position: absolute;
+    width: calc(100% - 40px);
+    top: 66px;
+    z-index: -1;
   }
 }
 
 .cursor li {
-  background-color: $cursor;
   list-style: none;
-  width: 10px;
-  height: 10px;
-  flex: 0 0 10px;
-  border-radius: $radiusRound;
-  margin-right: 20px;
-  margin-left: 16px;
+
+  @media ($desktop) {
+    background-color: $cursor;
+    border-radius: $radiusRound;
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    margin-right: 20px;
+    margin-left: 16px;
+  }
+
+  @media ($mobile) {
+    flex: 1 0 calc(25% - 4px);
+    min-height: 64px;
+    border-radius: $radiusCurved;
+  }
 }
 
 .cursor ._active {

@@ -1,4 +1,4 @@
-module Views.Tracks exposing (renderTracks)
+module Views.Tracks exposing (renderTracks, renderTrackSelector)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -30,10 +30,38 @@ renderSequence trackIndex track =
 
 renderTrack : Int -> Track -> Html Msg
 renderTrack trackIndex track =
-    div [ class "track" ]
-        [ p [ class "track-title" ] [ text track.name ]
-        , div [ class "track-sequence" ] (renderSequence trackIndex track)
-        ]
+    let
+        classes =
+            if track.isActive then
+                "track _active"
+            else
+                "track _hidden"
+    in
+        div [ class classes ]
+            [ p [ class "track-title" ] [ text track.name ]
+            , div [ class "track-sequence" ] (renderSequence trackIndex track)
+            ]
+
+
+renderTrackButton : Int -> Track -> Html Msg
+renderTrackButton trackIndex track =
+    let
+        classes =
+            if track.isActive then
+                "selector-button _active"
+            else
+                "selector-button"
+    in
+        button
+            [ onClick (ActivateTrack trackIndex)
+            , class classes
+            ]
+            [ text track.name ]
+
+
+renderTrackSelector : Model -> Html Msg
+renderTrackSelector model =
+    div [ class "track-selector" ] (Array.toList <| Array.indexedMap renderTrackButton model.tracks)
 
 
 renderTracks : Model -> Html Msg

@@ -47,6 +47,3 @@ When adding a new CSS file, you may need to restart the development server.
 - Mute track?
 - Local storage sequences?
 - Keyboard control 1-8, q-i, a-k, z-, = 8 steps; - move down = move up; [ move left ] move right
-
-# Bugs
-- The sequence position is fast, or the audio is slow. Step 1 plays audio while light is on step 2. Noticeable a slow speeds.

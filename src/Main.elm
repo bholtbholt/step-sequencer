@@ -48,7 +48,7 @@ initKick =
 init : ( Model, Cmd.Cmd Msg )
 init =
     ( { playback = Stopped
-      , playbackPosition = 0
+      , playbackPosition = 16
       , playbackSequence = Array.initialize 16 (always Set.empty)
       , bpm = 108
       , tracks = Array.fromList [ initHat, initSnare, initKick ]

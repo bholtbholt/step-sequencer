@@ -51,21 +51,13 @@ updatePlaybackSequence stepIndex trackClip playbackSequence =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ToggleStep trackIndex trackClip stepIndex ->
-            ( { model
-                | tracks = updateTrackStep trackIndex stepIndex model.tracks
-                , playbackSequence = updatePlaybackSequence stepIndex trackClip model.playbackSequence
-              }
-            , Cmd.none
-            )
-
         StartPlayback ->
             ( { model | playback = Playing }, Cmd.none )
 
         StopPlayback ->
             ( { model
                 | playback = Stopped
-                , playbackPosition = 0
+                , playbackPosition = 16
               }
             , Cmd.none
             )
@@ -73,13 +65,13 @@ update msg model =
         UpdatePlaybackPosition _ ->
             let
                 newPosition =
-                    if model.playbackPosition == 15 then
+                    if model.playbackPosition >= 15 then
                         0
                     else
                         model.playbackPosition + 1
 
                 stepClips =
-                    Array.get model.playbackPosition model.playbackSequence
+                    Array.get newPosition model.playbackSequence
                         |> Maybe.withDefault Set.empty
             in
                 ( { model | playbackPosition = newPosition }, startPlayback (Set.toList stepClips) )
@@ -90,6 +82,14 @@ update msg model =
                     Result.withDefault model.bpm (String.toInt bpm)
             in
                 ( { model | bpm = newBPM }, Cmd.none )
+
+        ToggleStep trackIndex trackClip stepIndex ->
+            ( { model
+                | tracks = updateTrackStep trackIndex stepIndex model.tracks
+                , playbackSequence = updatePlaybackSequence stepIndex trackClip model.playbackSequence
+              }
+            , Cmd.none
+            )
 
         ActivateTrack trackIndex ->
             let

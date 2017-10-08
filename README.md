@@ -49,5 +49,4 @@ When adding a new CSS file, you may need to restart the development server.
 - Keyboard control 1-8, q-i, a-k, z-, = 8 steps; - move down = move up; [ move left ] move right
 
 # Bugs
-- After x time, the audio no longer triggers and a JS promise error is returned. `const samples` is no longer in scope, is it due to GC on Safari?
 - The sequence position is fast, or the audio is slow. Step 1 plays audio while light is on step 2. Noticeable a slow speeds.

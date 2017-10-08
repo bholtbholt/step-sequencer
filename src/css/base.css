@@ -9,7 +9,7 @@ body {
 
 .step-sequencer {
   @media ($mobile) {
-    height: 100vh;
+    height: 90vh;
     padding: 20px;
     display: flex;
     flex-direction: column;

@@ -11,7 +11,7 @@ body {
 @media (max-width: 699px) {
 
 .step-sequencer {
-    height: 100vh;
+    height: 90vh;
     padding: 20px;
     display: -webkit-box;
     display: -ms-flexbox;

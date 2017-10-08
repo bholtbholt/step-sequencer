@@ -14,8 +14,13 @@ To start the Elm development server (Elm Reactor) and the Postcss-cli run
 Visit
 ```http://localhost:3000/reactor.html```
 
+Visiting ```http://localhost:3000/``` and navigating to your Elm files utilizes the standard Elm Reactor, which doesn't contain CSS styles.
+
 ### IDE Settings
 It's recommended to install [Prettier](https://packagecontrol.io/packages/JsPrettier) and [Elm Language Support](https://packagecontrol.io/packages/Elm%20Language%20Support) for your IDE. These tools will auto-format Elm, CSS, and JS code.
+
+### Development issues in reactor.html
+At times, reactor.html logs a `ReferenceError: Can't find variable: Elm`. This occurs when the Elm bundle has not recompiled fast enough or when the Elm code can't be compiled. To fix, ensure your Elm code can be compiled, and do a hard refresh.
 
 # Deploy/Building
 To build/update the dist folder (which will update the Github Page repo), run

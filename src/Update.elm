@@ -27,11 +27,11 @@ updateTrackStep trackIndex stepIndex tracks =
             else
                 Off
 
-        newSequence track =
-            setNestedArray stepIndex toggleStep track.sequence
+        newSequence sequence =
+            setNestedArray stepIndex toggleStep sequence
 
         newTrack track =
-            { track | sequence = newSequence track }
+            { track | sequence = (newSequence track.sequence) }
     in
         setNestedArray trackIndex newTrack tracks
 

@@ -8734,14 +8734,14 @@ var _bholtbholt$step_sequencer$Update$updateTrackStep = F3(
 		var toggleStep = function (step) {
 			return _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
 		};
-		var newSequence = function (track) {
-			return A3(_bholtbholt$step_sequencer$Update$setNestedArray, stepIndex, toggleStep, track.sequence);
+		var newSequence = function (sequence) {
+			return A3(_bholtbholt$step_sequencer$Update$setNestedArray, stepIndex, toggleStep, sequence);
 		};
 		var newTrack = function (track) {
 			return _elm_lang$core$Native_Utils.update(
 				track,
 				{
-					sequence: newSequence(track)
+					sequence: newSequence(track.sequence)
 				});
 		};
 		return A3(_bholtbholt$step_sequencer$Update$setNestedArray, trackIndex, newTrack, tracks);

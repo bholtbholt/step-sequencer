@@ -25,7 +25,8 @@ renderStep trackIndex trackClip stepIndex step =
 
 renderSequence : Int -> Track -> List (Html Msg)
 renderSequence trackIndex track =
-    Array.toList <| Array.indexedMap (renderStep trackIndex track.clip) track.sequence
+    Array.indexedMap (renderStep trackIndex track.clip) track.sequence
+        |> Array.toList
 
 
 renderTrack : Int -> Track -> Html Msg

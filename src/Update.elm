@@ -5,7 +5,7 @@ import Array exposing (..)
 import Set exposing (..)
 
 
-port startPlayback : List String -> Cmd msg
+port sendClips : List String -> Cmd msg
 
 
 setNestedArray : Int -> (a -> a) -> Array a -> Array a
@@ -74,7 +74,7 @@ update msg model =
                     Array.get newPosition model.playbackSequence
                         |> Maybe.withDefault Set.empty
             in
-                ( { model | playbackPosition = newPosition }, startPlayback (Set.toList stepClips) )
+                ( { model | playbackPosition = newPosition }, sendClips (Set.toList stepClips) )
 
         UpdateBPM bpm ->
             let

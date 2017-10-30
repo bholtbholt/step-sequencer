@@ -8758,8 +8758,8 @@ var _bholtbholt$step_sequencer$Update$updatePlaybackSequence = F3(
 			updateSequence(trackClip),
 			playbackSequence);
 	});
-var _bholtbholt$step_sequencer$Update$startPlayback = _elm_lang$core$Native_Platform.outgoingPort(
-	'startPlayback',
+var _bholtbholt$step_sequencer$Update$sendClips = _elm_lang$core$Native_Platform.outgoingPort(
+	'sendClips',
 	function (v) {
 		return _elm_lang$core$Native_List.toArray(v).map(
 			function (v) {
@@ -8797,7 +8797,7 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{playbackPosition: newPosition}),
-					_1: _bholtbholt$step_sequencer$Update$startPlayback(
+					_1: _bholtbholt$step_sequencer$Update$sendClips(
 						_elm_lang$core$Set$toList(stepClips))
 				};
 			case 'UpdateBPM':

@@ -36,7 +36,7 @@ updateTrackStep trackIndex stepIndex tracks =
         setNestedArray trackIndex newTrack tracks
 
 
-updatePlaybackSequence : Int -> String -> Array (Set String) -> Array (Set String)
+updatePlaybackSequence : Int -> Clip -> Array (Set Clip) -> Array (Set Clip)
 updatePlaybackSequence stepIndex trackClip playbackSequence =
     let
         updateSequence trackClip sequence =

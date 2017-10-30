@@ -9,7 +9,7 @@ type alias Model =
     { tracks : Array Track
     , playback : Playback
     , playbackPosition : PlaybackPosition
-    , playbackSequence : Array (Set String)
+    , playbackSequence : Array (Set Clip)
     , bpm : Int
     }
 
@@ -17,7 +17,7 @@ type alias Model =
 type alias Track =
     { sequence : Array Step
     , name : String
-    , clip : String
+    , clip : Clip
     , isActive : Bool
     }
 
@@ -34,6 +34,10 @@ type Playback
 
 type alias PlaybackPosition =
     Int
+
+
+type alias Clip =
+    String
 
 
 type Msg

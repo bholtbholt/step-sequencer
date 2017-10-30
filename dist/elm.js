@@ -8770,18 +8770,6 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
 		switch (_p1.ctor) {
-			case 'ToggleStep':
-				var _p2 = _p1._2;
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							tracks: A3(_bholtbholt$step_sequencer$Update$updateTrackStep, _p1._0, _p2, model.tracks),
-							playbackSequence: A3(_bholtbholt$step_sequencer$Update$updatePlaybackSequence, _p2, _p1._1, model.playbackSequence)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
 			case 'StartPlayback':
 				return {
 					ctor: '_Tuple2',
@@ -8795,15 +8783,15 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{playback: _bholtbholt$step_sequencer$Types$Stopped, playbackPosition: 0}),
+						{playback: _bholtbholt$step_sequencer$Types$Stopped, playbackPosition: 16}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'UpdatePlaybackPosition':
+				var newPosition = (_elm_lang$core$Native_Utils.cmp(model.playbackPosition, 15) > -1) ? 0 : (model.playbackPosition + 1);
 				var stepClips = A2(
 					_elm_lang$core$Maybe$withDefault,
 					_elm_lang$core$Set$empty,
-					A2(_elm_lang$core$Array$get, model.playbackPosition, model.playbackSequence));
-				var newPosition = _elm_lang$core$Native_Utils.eq(model.playbackPosition, 15) ? 0 : (model.playbackPosition + 1);
+					A2(_elm_lang$core$Array$get, newPosition, model.playbackSequence));
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -8822,6 +8810,18 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{bpm: newBPM}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ToggleStep':
+				var _p2 = _p1._2;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							tracks: A3(_bholtbholt$step_sequencer$Update$updateTrackStep, _p1._0, _p2, model.tracks),
+							playbackSequence: A3(_bholtbholt$step_sequencer$Update$updatePlaybackSequence, _p2, _p1._1, model.playbackSequence)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
@@ -9329,7 +9329,7 @@ var _bholtbholt$step_sequencer$Main$init = {
 	ctor: '_Tuple2',
 	_0: {
 		playback: _bholtbholt$step_sequencer$Types$Stopped,
-		playbackPosition: 0,
+		playbackPosition: 16,
 		playbackSequence: A2(
 			_elm_lang$core$Array$initialize,
 			16,

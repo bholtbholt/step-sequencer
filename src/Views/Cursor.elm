@@ -9,14 +9,12 @@ import Set exposing (..)
 
 renderCursorPoint : Model -> Int -> Set String -> Html Msg
 renderCursorPoint model index _ =
-    let
-        activeClass =
-            if model.playbackPosition == index && model.playback == Playing then
-                "_active"
-            else
-                ""
-    in
-        li [ class activeClass ] []
+    li
+        [ classList
+            [ ( "_active", model.playbackPosition == index && model.playback == Playing )
+            ]
+        ]
+        []
 
 
 renderCursor : Model -> Html Msg

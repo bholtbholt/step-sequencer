@@ -14,16 +14,14 @@ renderPlaybackButton model =
                 StartPlayback
             else
                 StopPlayback
-
-        buttonClasses =
-            if model.playback == Playing then
-                "playback-button _playing"
-            else
-                "playback-button _stopped"
     in
         button
             [ onClick togglePlayback
-            , class buttonClasses
+            , classList
+                [ ( "playback-button", True )
+                , ( "_playing", model.playback == Playing )
+                , ( "_stopped", model.playback == Stopped )
+                ]
             ]
             []
 

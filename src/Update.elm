@@ -18,7 +18,7 @@ setNestedArray index setFn array =
             Array.set index (setFn a) array
 
 
-updateTrackStep : Int -> Int -> Array Track -> Array Track
+updateTrackStep : TrackIndex -> StepIndex -> Array Track -> Array Track
 updateTrackStep trackIndex stepIndex tracks =
     let
         toggleStep step =
@@ -36,7 +36,7 @@ updateTrackStep trackIndex stepIndex tracks =
         setNestedArray trackIndex newTrack tracks
 
 
-updatePlaybackSequence : Int -> Sample -> Array (Set Sample) -> Array (Set Sample)
+updatePlaybackSequence : StepIndex -> Sample -> Array (Set Sample) -> Array (Set Sample)
 updatePlaybackSequence stepIndex trackSample playbackSequence =
     let
         updateSequence trackSample sequence =

@@ -7,7 +7,7 @@ import Types exposing (..)
 import Array exposing (..)
 
 
-renderStep : Int -> Sample -> Int -> Step -> Html Msg
+renderStep : TrackIndex -> Sample -> StepIndex -> Step -> Html Msg
 renderStep trackIndex trackSample stepIndex step =
     let
         classes =
@@ -23,13 +23,13 @@ renderStep trackIndex trackSample stepIndex step =
             []
 
 
-renderSequence : Int -> Track -> List (Html Msg)
+renderSequence : TrackIndex -> Track -> List (Html Msg)
 renderSequence trackIndex track =
     Array.indexedMap (renderStep trackIndex track.sample) track.sequence
         |> Array.toList
 
 
-renderTrack : Int -> Track -> Html Msg
+renderTrack : TrackIndex -> Track -> Html Msg
 renderTrack trackIndex track =
     let
         classes =
@@ -44,7 +44,7 @@ renderTrack trackIndex track =
             ]
 
 
-renderTrackButton : Int -> Track -> Html Msg
+renderTrackButton : TrackIndex -> Track -> Html Msg
 renderTrackButton trackIndex track =
     let
         classes =

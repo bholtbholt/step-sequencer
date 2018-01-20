@@ -40,6 +40,14 @@ type alias Sample =
     String
 
 
+type alias TrackIndex =
+    Int
+
+
+type alias StepIndex =
+    Int
+
+
 type Msg
     = ToggleStep Int String Int
     | StartPlayback

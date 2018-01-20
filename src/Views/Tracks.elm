@@ -7,8 +7,8 @@ import Types exposing (..)
 import Array exposing (..)
 
 
-renderStep : Int -> String -> Int -> Step -> Html Msg
-renderStep trackIndex trackClip stepIndex step =
+renderStep : Int -> Sample -> Int -> Step -> Html Msg
+renderStep trackIndex trackSample stepIndex step =
     let
         classes =
             if step == Active then
@@ -17,7 +17,7 @@ renderStep trackIndex trackClip stepIndex step =
                 "step"
     in
         button
-            [ onClick (ToggleStep trackIndex trackClip stepIndex)
+            [ onClick (ToggleStep trackIndex trackSample stepIndex)
             , class classes
             ]
             []
@@ -25,7 +25,7 @@ renderStep trackIndex trackClip stepIndex step =
 
 renderSequence : Int -> Track -> List (Html Msg)
 renderSequence trackIndex track =
-    Array.indexedMap (renderStep trackIndex track.clip) track.sequence
+    Array.indexedMap (renderStep trackIndex track.sample) track.sequence
         |> Array.toList
 
 

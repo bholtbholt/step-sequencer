@@ -14,7 +14,7 @@
 
   const app = Elm.Main.embed(document.body);
 
-  app.ports.sendClips.subscribe(clips => {
-    clips.map(clip => samples[clip].play());
+  app.ports.sendSamples.subscribe(stepData => {
+    stepData.map(sample => samples[sample].play());
   });
 })();

@@ -22,7 +22,7 @@ initHat : Track
 initHat =
     { sequence = initSequence
     , name = "Hat"
-    , clip = "hat"
+    , sample = "hat"
     , isActive = True
     }
 
@@ -31,7 +31,7 @@ initSnare : Track
 initSnare =
     { sequence = initSequence
     , name = "Snare"
-    , clip = "snare"
+    , sample = "snare"
     , isActive = False
     }
 
@@ -40,7 +40,7 @@ initKick : Track
 initKick =
     { sequence = initSequence
     , name = "Kick"
-    , clip = "kick"
+    , sample = "kick"
     , isActive = False
     }
 

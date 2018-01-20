@@ -5,7 +5,7 @@ import Array exposing (..)
 import Set exposing (..)
 
 
-port sendClips : List String -> Cmd msg
+port sendSamples : List String -> Cmd msg
 
 
 setNestedArray : Int -> (a -> a) -> Array a -> Array a
@@ -36,16 +36,16 @@ updateTrackStep trackIndex stepIndex tracks =
         setNestedArray trackIndex newTrack tracks
 
 
-updatePlaybackSequence : Int -> Clip -> Array (Set Clip) -> Array (Set Clip)
-updatePlaybackSequence stepIndex trackClip playbackSequence =
+updatePlaybackSequence : Int -> Sample -> Array (Set Sample) -> Array (Set Sample)
+updatePlaybackSequence stepIndex trackSample playbackSequence =
     let
-        updateSequence trackClip sequence =
-            if Set.member trackClip sequence then
-                Set.remove trackClip sequence
+        updateSequence trackSample sequence =
+            if Set.member trackSample sequence then
+                Set.remove trackSample sequence
             else
-                Set.insert trackClip sequence
+                Set.insert trackSample sequence
     in
-        setNestedArray stepIndex (updateSequence trackClip) playbackSequence
+        setNestedArray stepIndex (updateSequence trackSample) playbackSequence
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -70,11 +70,11 @@ update msg model =
                     else
                         model.playbackPosition + 1
 
-                stepClips =
+                stepSamples =
                     Array.get newPosition model.playbackSequence
                         |> Maybe.withDefault Set.empty
             in
-                ( { model | playbackPosition = newPosition }, sendClips (Set.toList stepClips) )
+                ( { model | playbackPosition = newPosition }, sendSamples (Set.toList stepSamples) )
 
         UpdateBPM bpm ->
             let
@@ -83,10 +83,10 @@ update msg model =
             in
                 ( { model | bpm = newBPM }, Cmd.none )
 
-        ToggleStep trackIndex trackClip stepIndex ->
+        ToggleStep trackIndex trackSample stepIndex ->
             ( { model
                 | tracks = updateTrackStep trackIndex stepIndex model.tracks
-                , playbackSequence = updatePlaybackSequence stepIndex trackClip model.playbackSequence
+                , playbackSequence = updatePlaybackSequence stepIndex trackSample model.playbackSequence
               }
             , Cmd.none
             )

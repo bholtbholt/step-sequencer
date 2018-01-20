@@ -15,7 +15,7 @@ import Views.Credits exposing (renderCredits)
 
 initSequence : Array Step
 initSequence =
-    Array.initialize 16 (always Off)
+    Array.initialize 16 (always Inactive)
 
 
 initHat : Track

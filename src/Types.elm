@@ -23,8 +23,8 @@ type alias Track =
 
 
 type Step
-    = On
-    | Off
+    = Active
+    | Inactive
 
 
 type Playback

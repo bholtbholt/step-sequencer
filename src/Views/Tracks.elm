@@ -11,10 +11,10 @@ renderStep : Int -> String -> Int -> Step -> Html Msg
 renderStep trackIndex trackClip stepIndex step =
     let
         classes =
-            if step == Off then
-                "step"
-            else
+            if step == Active then
                 "step _active"
+            else
+                "step"
     in
         button
             [ onClick (ToggleStep trackIndex trackClip stepIndex)

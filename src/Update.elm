@@ -22,10 +22,10 @@ updateTrackStep : Int -> Int -> Array Track -> Array Track
 updateTrackStep trackIndex stepIndex tracks =
     let
         toggleStep step =
-            if step == Off then
-                On
+            if step == Inactive then
+                Active
             else
-                Off
+                Inactive
 
         newSequence sequence =
             setNestedArray stepIndex toggleStep sequence

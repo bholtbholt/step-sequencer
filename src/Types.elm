@@ -49,9 +49,9 @@ type alias StepIndex =
 
 
 type Msg
-    = ToggleStep Int String Int
+    = ToggleStep TrackIndex Sample StepIndex
     | StartPlayback
     | StopPlayback
     | UpdatePlaybackPosition Time
     | UpdateBPM String
-    | ActivateTrack Int
+    | ActivateTrack TrackIndex

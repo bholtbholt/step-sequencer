@@ -49,3 +49,15 @@
 .cursor ._active {
   background-color: #f1c40f;
 }
+
+@media(min-width: 700px) {
+
+.cursor ._active {
+    -webkit-box-shadow: 0 0 15px #f1c40f;
+            box-shadow: 0 0 15px #f1c40f;
+    -webkit-transition: -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+    transition: -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+    transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+    transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52), -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52)
+}
+  }

@@ -34,4 +34,9 @@
 
 .cursor ._active {
   background-color: $secondaryActive;
+
+  @media($desktop) {
+    box-shadow: 0 0 15px $secondaryActive;
+    transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+  }
 }

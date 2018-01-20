@@ -8694,10 +8694,10 @@ var _bholtbholt$step_sequencer$Types$Model = F5(
 	});
 var _bholtbholt$step_sequencer$Types$Track = F4(
 	function (a, b, c, d) {
-		return {sequence: a, name: b, clip: c, isActive: d};
+		return {sequence: a, name: b, sample: c, isActive: d};
 	});
-var _bholtbholt$step_sequencer$Types$Off = {ctor: 'Off'};
-var _bholtbholt$step_sequencer$Types$On = {ctor: 'On'};
+var _bholtbholt$step_sequencer$Types$Inactive = {ctor: 'Inactive'};
+var _bholtbholt$step_sequencer$Types$Active = {ctor: 'Active'};
 var _bholtbholt$step_sequencer$Types$Stopped = {ctor: 'Stopped'};
 var _bholtbholt$step_sequencer$Types$Playing = {ctor: 'Playing'};
 var _bholtbholt$step_sequencer$Types$ActivateTrack = function (a) {
@@ -8732,7 +8732,7 @@ var _bholtbholt$step_sequencer$Update$setNestedArray = F3(
 var _bholtbholt$step_sequencer$Update$updateTrackStep = F3(
 	function (trackIndex, stepIndex, tracks) {
 		var toggleStep = function (step) {
-			return _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? _bholtbholt$step_sequencer$Types$On : _bholtbholt$step_sequencer$Types$Off;
+			return _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Inactive) ? _bholtbholt$step_sequencer$Types$Active : _bholtbholt$step_sequencer$Types$Inactive;
 		};
 		var newSequence = function (sequence) {
 			return A3(_bholtbholt$step_sequencer$Update$setNestedArray, stepIndex, toggleStep, sequence);
@@ -8747,19 +8747,19 @@ var _bholtbholt$step_sequencer$Update$updateTrackStep = F3(
 		return A3(_bholtbholt$step_sequencer$Update$setNestedArray, trackIndex, newTrack, tracks);
 	});
 var _bholtbholt$step_sequencer$Update$updatePlaybackSequence = F3(
-	function (stepIndex, trackClip, playbackSequence) {
+	function (stepIndex, trackSample, playbackSequence) {
 		var updateSequence = F2(
-			function (trackClip, sequence) {
-				return A2(_elm_lang$core$Set$member, trackClip, sequence) ? A2(_elm_lang$core$Set$remove, trackClip, sequence) : A2(_elm_lang$core$Set$insert, trackClip, sequence);
+			function (trackSample, sequence) {
+				return A2(_elm_lang$core$Set$member, trackSample, sequence) ? A2(_elm_lang$core$Set$remove, trackSample, sequence) : A2(_elm_lang$core$Set$insert, trackSample, sequence);
 			});
 		return A3(
 			_bholtbholt$step_sequencer$Update$setNestedArray,
 			stepIndex,
-			updateSequence(trackClip),
+			updateSequence(trackSample),
 			playbackSequence);
 	});
-var _bholtbholt$step_sequencer$Update$sendClips = _elm_lang$core$Native_Platform.outgoingPort(
-	'sendClips',
+var _bholtbholt$step_sequencer$Update$sendSamples = _elm_lang$core$Native_Platform.outgoingPort(
+	'sendSamples',
 	function (v) {
 		return _elm_lang$core$Native_List.toArray(v).map(
 			function (v) {
@@ -8788,7 +8788,7 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 				};
 			case 'UpdatePlaybackPosition':
 				var newPosition = (_elm_lang$core$Native_Utils.cmp(model.playbackPosition, 15) > -1) ? 0 : (model.playbackPosition + 1);
-				var stepClips = A2(
+				var stepSamples = A2(
 					_elm_lang$core$Maybe$withDefault,
 					_elm_lang$core$Set$empty,
 					A2(_elm_lang$core$Array$get, newPosition, model.playbackSequence));
@@ -8797,8 +8797,8 @@ var _bholtbholt$step_sequencer$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{playbackPosition: newPosition}),
-					_1: _bholtbholt$step_sequencer$Update$sendClips(
-						_elm_lang$core$Set$toList(stepClips))
+					_1: _bholtbholt$step_sequencer$Update$sendSamples(
+						_elm_lang$core$Set$toList(stepSamples))
 				};
 			case 'UpdateBPM':
 				var newBPM = A2(
@@ -8865,12 +8865,20 @@ var _bholtbholt$step_sequencer$Subscriptions$subscriptions = function (model) {
 
 var _bholtbholt$step_sequencer$Views_Cursor$renderCursorPoint = F3(
 	function (model, index, _p0) {
-		var activeClass = (_elm_lang$core$Native_Utils.eq(model.playbackPosition, index) && _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing)) ? '_active' : '';
 		return A2(
 			_elm_lang$html$Html$li,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class(activeClass),
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: '_active',
+							_1: _elm_lang$core$Native_Utils.eq(model.playbackPosition, index) && _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing)
+						},
+						_1: {ctor: '[]'}
+					}),
 				_1: {ctor: '[]'}
 			},
 			{ctor: '[]'});
@@ -9007,7 +9015,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 
 var _bholtbholt$step_sequencer$Views_Tracks$renderTrackButton = F2(
 	function (trackIndex, track) {
-		var classes = track.isActive ? 'selector-button _active' : 'selector-button';
 		return A2(
 			_elm_lang$html$Html$button,
 			{
@@ -9016,7 +9023,16 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTrackButton = F2(
 					_bholtbholt$step_sequencer$Types$ActivateTrack(trackIndex)),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(classes),
+					_0: _elm_lang$html$Html_Attributes$classList(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'selector-button', _1: true},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: '_active', _1: track.isActive},
+								_1: {ctor: '[]'}
+							}
+						}),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -9037,39 +9053,67 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTrackSelector = function (mode
 		_elm_lang$core$Array$toList(
 			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$Views_Tracks$renderTrackButton, model.tracks)));
 };
-var _bholtbholt$step_sequencer$Views_Tracks$renderStep = F4(
-	function (trackIndex, trackClip, stepIndex, step) {
-		var classes = _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Off) ? 'step' : 'step _active';
+var _bholtbholt$step_sequencer$Views_Tracks$renderStep = F6(
+	function (playback, playbackPosition, trackIndex, trackSample, stepIndex, step) {
 		return A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A3(_bholtbholt$step_sequencer$Types$ToggleStep, trackIndex, trackClip, stepIndex)),
+					A3(_bholtbholt$step_sequencer$Types$ToggleStep, trackIndex, trackSample, stepIndex)),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(classes),
+					_0: _elm_lang$html$Html_Attributes$classList(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'step', _1: true},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: '_active',
+									_1: _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Active)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: '_flashing',
+										_1: _elm_lang$core$Native_Utils.eq(playback, _bholtbholt$step_sequencer$Types$Playing) && (_elm_lang$core$Native_Utils.eq(playbackPosition, stepIndex) && _elm_lang$core$Native_Utils.eq(step, _bholtbholt$step_sequencer$Types$Active))
+									},
+									_1: {ctor: '[]'}
+								}
+							}
+						}),
 					_1: {ctor: '[]'}
 				}
 			},
 			{ctor: '[]'});
 	});
-var _bholtbholt$step_sequencer$Views_Tracks$renderSequence = F2(
-	function (trackIndex, track) {
+var _bholtbholt$step_sequencer$Views_Tracks$renderSequence = F4(
+	function (playback, playbackPosition, trackIndex, track) {
 		return _elm_lang$core$Array$toList(
 			A2(
 				_elm_lang$core$Array$indexedMap,
-				A2(_bholtbholt$step_sequencer$Views_Tracks$renderStep, trackIndex, track.clip),
+				A4(_bholtbholt$step_sequencer$Views_Tracks$renderStep, playback, playbackPosition, trackIndex, track.sample),
 				track.sequence));
 	});
-var _bholtbholt$step_sequencer$Views_Tracks$renderTrack = F2(
-	function (trackIndex, track) {
-		var classes = track.isActive ? 'track _active' : 'track _hidden';
+var _bholtbholt$step_sequencer$Views_Tracks$renderTrack = F4(
+	function (playback, playbackPosition, trackIndex, track) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class(classes),
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'track', _1: true},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: '_hidden', _1: !track.isActive},
+							_1: {ctor: '[]'}
+						}
+					}),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -9095,7 +9139,7 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTrack = F2(
 							_0: _elm_lang$html$Html_Attributes$class('track-sequence'),
 							_1: {ctor: '[]'}
 						},
-						A2(_bholtbholt$step_sequencer$Views_Tracks$renderSequence, trackIndex, track)),
+						A4(_bholtbholt$step_sequencer$Views_Tracks$renderSequence, playback, playbackPosition, trackIndex, track)),
 					_1: {ctor: '[]'}
 				}
 			});
@@ -9109,7 +9153,10 @@ var _bholtbholt$step_sequencer$Views_Tracks$renderTracks = function (model) {
 			_1: {ctor: '[]'}
 		},
 		_elm_lang$core$Array$toList(
-			A2(_elm_lang$core$Array$indexedMap, _bholtbholt$step_sequencer$Views_Tracks$renderTrack, model.tracks)));
+			A2(
+				_elm_lang$core$Array$indexedMap,
+				A2(_bholtbholt$step_sequencer$Views_Tracks$renderTrack, model.playback, model.playbackPosition),
+				model.tracks)));
 };
 
 var _bholtbholt$step_sequencer$Views_PlaybackControls$renderBPM = function (model) {
@@ -9148,7 +9195,6 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderBPM = function (mode
 		{ctor: '[]'});
 };
 var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton = function (model) {
-	var buttonClasses = _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing) ? 'playback-button _playing' : 'playback-button _stopped';
 	var togglePlayback = _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Stopped) ? _bholtbholt$step_sequencer$Types$StartPlayback : _bholtbholt$step_sequencer$Types$StopPlayback;
 	return A2(
 		_elm_lang$html$Html$button,
@@ -9157,7 +9203,28 @@ var _bholtbholt$step_sequencer$Views_PlaybackControls$renderPlaybackButton = fun
 			_0: _elm_lang$html$Html_Events$onClick(togglePlayback),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class(buttonClasses),
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'playback-button', _1: true},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: '_playing',
+								_1: _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Playing)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: '_stopped',
+									_1: _elm_lang$core$Native_Utils.eq(model.playback, _bholtbholt$step_sequencer$Types$Stopped)
+								},
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
 				_1: {ctor: '[]'}
 			}
 		},
@@ -9321,10 +9388,10 @@ var _bholtbholt$step_sequencer$Main$view = function (model) {
 var _bholtbholt$step_sequencer$Main$initSequence = A2(
 	_elm_lang$core$Array$initialize,
 	16,
-	_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Off));
-var _bholtbholt$step_sequencer$Main$initHat = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Hat', clip: 'hat', isActive: true};
-var _bholtbholt$step_sequencer$Main$initSnare = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Snare', clip: 'snare', isActive: false};
-var _bholtbholt$step_sequencer$Main$initKick = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Kick', clip: 'kick', isActive: false};
+	_elm_lang$core$Basics$always(_bholtbholt$step_sequencer$Types$Inactive));
+var _bholtbholt$step_sequencer$Main$initHat = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Hat', sample: 'hat', isActive: true};
+var _bholtbholt$step_sequencer$Main$initSnare = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Snare', sample: 'snare', isActive: false};
+var _bholtbholt$step_sequencer$Main$initKick = {sequence: _bholtbholt$step_sequencer$Main$initSequence, name: 'Kick', sample: 'kick', isActive: false};
 var _bholtbholt$step_sequencer$Main$init = {
 	ctor: '_Tuple2',
 	_0: {

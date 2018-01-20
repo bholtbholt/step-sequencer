@@ -91,6 +91,12 @@
   }
 }
 
+.step._flashing {
+  background-color: $primaryHighlight;
+  box-shadow: 0 0 15px $primaryHighlight;
+  transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+}
+
 .track-selector {
   margin-bottom: 20px;
 

@@ -123,6 +123,16 @@
 }
   }
 
+.step._flashing {
+  background-color: #1dd5b1;
+  -webkit-box-shadow: 0 0 15px #1dd5b1;
+          box-shadow: 0 0 15px #1dd5b1;
+  -webkit-transition: -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+  transition: -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+  transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+  transition: box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52), -webkit-box-shadow .2s cubic-bezier(0, 0, 0.64, 1.52);
+}
+
 .track-selector {
   margin-bottom: 20px;
 }

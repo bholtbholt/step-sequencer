@@ -7,26 +7,27 @@ import Types exposing (..)
 import Array exposing (..)
 
 
-renderStep : TrackIndex -> Sample -> StepIndex -> Step -> Html Msg
-renderStep trackIndex trackSample stepIndex step =
+renderStep : Playback -> PlaybackPosition -> TrackIndex -> Sample -> StepIndex -> Step -> Html Msg
+renderStep playback playbackPosition trackIndex trackSample stepIndex step =
     button
         [ onClick (ToggleStep trackIndex trackSample stepIndex)
         , classList
             [ ( "step", True )
             , ( "_active", step == Active )
+            , ( "_flashing", playback == Playing && playbackPosition == stepIndex && step == Active )
             ]
         ]
         []
 
 
-renderSequence : TrackIndex -> Track -> List (Html Msg)
-renderSequence trackIndex track =
-    Array.indexedMap (renderStep trackIndex track.sample) track.sequence
+renderSequence : Playback -> PlaybackPosition -> TrackIndex -> Track -> List (Html Msg)
+renderSequence playback playbackPosition trackIndex track =
+    Array.indexedMap (renderStep playback playbackPosition trackIndex track.sample) track.sequence
         |> Array.toList
 
 
-renderTrack : TrackIndex -> Track -> Html Msg
-renderTrack trackIndex track =
+renderTrack : Playback -> PlaybackPosition -> TrackIndex -> Track -> Html Msg
+renderTrack playback playbackPosition trackIndex track =
     div
         [ classList
             [ ( "track", True )
@@ -34,7 +35,7 @@ renderTrack trackIndex track =
             ]
         ]
         [ p [ class "track-title" ] [ text track.name ]
-        , div [ class "track-sequence" ] (renderSequence trackIndex track)
+        , div [ class "track-sequence" ] (renderSequence playback playbackPosition trackIndex track)
         ]
 
 
@@ -57,4 +58,6 @@ renderTrackSelector model =
 
 renderTracks : Model -> Html Msg
 renderTracks model =
-    div [ class "tracks" ] (Array.toList <| Array.indexedMap renderTrack model.tracks)
+    div
+        [ class "tracks" ]
+        (Array.toList <| Array.indexedMap (renderTrack model.playback model.playbackPosition) model.tracks)

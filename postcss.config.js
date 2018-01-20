@@ -8,6 +8,7 @@ module.exports = {
         $body: '#34495e',
 
         $primaryActive: '#1abc9c',
+        $primaryHighlight: '#1dd5b1',
         $secondaryActive: '#f1c40f',
 
         $radiusRound: '50%',

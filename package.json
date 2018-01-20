@@ -10,8 +10,8 @@
     "elm-install": "node_modules/.bin/elm-package install -y",
     "elm-reactor": "node_modules/.bin/elm-reactor -p 3000",
     "clean-dist": "rm -rf dist/",
-    "start": "yarn elm-install && yarn elm-reactor & yarn css-watch",
-    "build": "yarn clean-dist && yarn css-build && yarn elm-install && yarn elm-build"
+    "start": "yarn elm-reactor & yarn css-watch",
+    "build": "yarn clean-dist && yarn css-build && yarn elm-build"
   },
   "author": "bholtbholt",
   "license": "ISC",

@@ -1,3 +1,6 @@
+# Elm Drum
+A step-sequencer for programming drum beats written in Elm. I've written a case-study which has been published in [Smashing Magazine](https://www.smashingmagazine.com) in two parts: [Part 1](https://www.smashingmagazine.com/2018/01/learning-elm-drum-sequencer-part-1/) [Part 2](https://www.smashingmagazine.com/2018/01/learning-elm-drum-sequencer-part-2/).
+
 # Installation
 Everything should automatically install by running
 ```yarn```
